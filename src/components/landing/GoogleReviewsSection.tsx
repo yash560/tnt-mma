@@ -12,8 +12,9 @@ import {
   ThumbsUp, 
   Sparkles,
   Search,
-  Filter
+  ArrowRight
 } from 'lucide-react';
+import Link from 'next/link';
 
 interface GoogleReviewItem {
   id: string;
@@ -42,7 +43,7 @@ const EXTENDED_GOOGLE_REVIEWS: GoogleReviewItem[] = [
     category: 'MMA',
     categoryLabel: 'MMA & Striking',
     headline: 'Hands down the most authentic MMA gym in central India',
-    comment: 'Hands down the best MMA gym in Bhopal! Coach Vikalp gives personal attention to every single detail—from cage footwork to ground submissions. The vibe is electric, highly disciplined, and beginner-friendly. If you are serious about martial arts, this is the only place.',
+    comment: 'Coach Vikalp gives personal attention to every single detail—from cage footwork to ground submissions. The vibe is electric, highly disciplined, and beginner-friendly.',
     helpfulCount: 14,
   },
   {
@@ -55,8 +56,8 @@ const EXTENDED_GOOGLE_REVIEWS: GoogleReviewItem[] = [
     date: '1 month ago',
     category: 'CROSSFIT',
     categoryLabel: 'Transformation & CrossFit',
-    headline: 'Lost 8 kgs of pure fat in 4 months with coach nutrition guidance',
-    comment: 'I joined TNT MMA for functional fitness and weight loss. In 4 months, I lost 8 kgs of pure fat and gained real muscle! The dietician consultation and CrossFit circuits are top-notch. Clean showers, great community, and certified coaches.',
+    headline: 'Lost 8 kgs of pure fat in 4 months with coach guidance',
+    comment: 'I joined TNT MMA for functional fitness and weight loss. In 4 months, I lost 8 kgs of pure fat and gained real muscle! Clean showers, great community, and certified coaches.',
     helpfulCount: 22,
   },
   {
@@ -70,7 +71,7 @@ const EXTENDED_GOOGLE_REVIEWS: GoogleReviewItem[] = [
     category: 'KIDS',
     categoryLabel: 'Kids Anti-Bullying',
     headline: 'My 10-year-old son gained incredible discipline and focus',
-    comment: 'My 10-year-old son Reyansh joined the 4 PM kids batch. His screen addiction is completely gone and his confidence has skyrocketed. The digital waiver and transparent coaching make it so trustworthy for parents. Coach Anjali and Coach Vikalp are wonderful mentors.',
+    comment: 'My 10-year-old son Reyansh joined the 4 PM kids batch. His screen addiction is completely gone and his confidence has skyrocketed. Trustworthy for parents.',
     helpfulCount: 18,
   },
   {
@@ -84,7 +85,7 @@ const EXTENDED_GOOGLE_REVIEWS: GoogleReviewItem[] = [
     category: 'BJJ',
     categoryLabel: 'BJJ Grappling',
     headline: 'Championship-grade tatami mats and safe submission sparring',
-    comment: 'Top tier grappling mats and great training partners. Authentic BJJ techniques with focus on safety, hygiene, and belt progression. Coach Vikalp breaks down No-Gi submission chains clearly. 4.9 stars is well deserved!',
+    comment: 'Top tier grappling mats and great training partners. Authentic BJJ techniques with focus on safety, hygiene, and belt progression. 4.9 stars is well deserved!',
     helpfulCount: 11,
   },
   {
@@ -96,256 +97,231 @@ const EXTENDED_GOOGLE_REVIEWS: GoogleReviewItem[] = [
     rating: 5,
     date: '1 month ago',
     category: 'COACH',
-    categoryLabel: 'Coach Vikalp Mentorship',
+    categoryLabel: 'Coach Mentorship',
     headline: 'Coach Vikalp is a true master and inspiring mentor',
-    comment: 'The level of dedication Coach Vikalp shows to every single student is unmatched in Bhopal. Whether you are a college student or working professional, the workouts are tailored to your stamina level. Best decision of my life to join TNT.',
+    comment: 'Whether it is striking combinations or strict calisthenics on the rig, coach ensures injury-free technique and relentless motivation.',
     helpfulCount: 9,
   },
   {
     id: 'gr-6',
-    name: 'Neha Agrawal',
-    avatarColor: 'from-teal-500 to-cyan-600',
+    name: 'Pooja Sharma',
+    avatarColor: 'from-orange-500 to-red-600',
     isLocalGuide: true,
-    reviewsCount: 15,
+    reviewsCount: 27,
     rating: 5,
-    date: '3 weeks ago',
+    date: '3 months ago',
     category: 'MMA',
-    categoryLabel: 'Women Self-Defense & Boxing',
-    headline: 'Super empowering environment for women in Bhopal',
-    comment: 'As a woman stepping into a combat gym for the first time, I was nervous. But TNT MMA is the most respectful, safe, and empowering space. I learned real practical striking defense and boosted my stamina ten-fold!',
-    helpfulCount: 16,
+    categoryLabel: 'Women Self-Defense',
+    headline: 'Safe, respectful, and empowering space for women',
+    comment: 'As a woman looking to learn real practical self-defense, TNT MMA provided the safest, most empowering environment in Bhopal. Highly recommend!',
+    helpfulCount: 31,
   },
 ];
 
 export default function GoogleReviewsSection({ isFullPage = false }: { isFullPage?: boolean }) {
   const [selectedCategory, setSelectedCategory] = useState<string>('ALL');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [helpfulLikes, setHelpfulLikes] = useState<{ [id: string]: number }>({});
+
+  const toggleHelpful = (id: string, currentCount: number) => {
+    setHelpfulLikes((prev) => ({
+      ...prev,
+      [id]: prev[id] ? prev[id] + 1 : currentCount + 1,
+    }));
+  };
 
   const filteredReviews = EXTENDED_GOOGLE_REVIEWS.filter((rev) => {
-    const matchesCat = selectedCategory === 'ALL' || rev.category === selectedCategory;
-    const matchesSearch = searchQuery === '' || 
+    const matchesCategory = selectedCategory === 'ALL' || rev.category === selectedCategory;
+    const matchesSearch = 
       rev.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      rev.comment.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      rev.headline.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCat && matchesSearch;
+      rev.headline.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      rev.comment.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
   });
 
   return (
-    <section id="reviews" className={`py-20 ${isFullPage ? 'pt-28' : 'bg-slate-50 dark:bg-zinc-950/80 border-t border-slate-200 dark:border-zinc-800/80'} relative overflow-hidden`}>
-      
-      {/* Background Ambience */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-orange-500/10 dark:bg-orange-600/10 rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
+    <section className={`py-16 sm:py-24 ${isFullPage ? 'bg-transparent' : 'bg-slate-50 dark:bg-zinc-950/70 border-t border-slate-200 dark:border-zinc-800/80'} relative`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-12">
         
-        {/* Section Header with Google Official Badge Styling */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 shadow-sm text-xs font-bold">
-            {/* Google Multicolored "G" */}
-            <span className="flex items-center gap-0.5 font-black text-sm">
-              <span className="text-blue-500">G</span>
-              <span className="text-red-500">o</span>
-              <span className="text-yellow-500">o</span>
-              <span className="text-blue-500">g</span>
-              <span className="text-green-500">l</span>
-              <span className="text-red-500">e</span>
-            </span>
-            <span className="text-slate-400 dark:text-zinc-600">|</span>
-            <span className="text-slate-800 dark:text-zinc-200 flex items-center gap-1">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <strong>4.9 Rating</strong> (100+ Verified Reviews)
-            </span>
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-            Real Athlete & Parent Reviews
-          </h2>
-          <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base">
-            Verified testimonials from members training across our Ayodhya Nagar and Govind Garden academies in Bhopal.
-          </p>
-        </div>
-
-        {/* Google Metrics Summary Card */}
-        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* Header & Rating Breakdown Banner */}
+        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xl flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           
-          {/* Left: 4.9 Big Score (4 Cols) */}
-          <div className="lg:col-span-4 text-center lg:text-left space-y-3 lg:border-r lg:border-slate-100 dark:lg:border-zinc-800 lg:pr-8">
-            <div className="flex items-center justify-center lg:justify-start gap-3">
-              <span className="text-5xl sm:text-6xl font-black text-slate-900 dark:text-white tracking-tight">
-                4.9
-              </span>
-              <div className="space-y-1 text-left">
-                <div className="flex items-center gap-1 text-amber-400">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <p className="text-xs text-slate-500 dark:text-zinc-400 font-semibold">112 Verified Reviews</p>
+          {/* Left Summary */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              {/* Google G Logo Badge */}
+              <div className="px-2.5 py-1 rounded-full bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 flex items-center gap-1.5 shadow-sm">
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span className="text-xs font-bold text-slate-800 dark:text-zinc-200">Google Verified Reviews</span>
               </div>
+              <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400">
+                100+ Reviews
+              </span>
             </div>
 
-            <p className="text-xs text-slate-600 dark:text-zinc-400">
-              #1 Ranked Combat Sports & CrossFit Academy in Bhopal on Google Maps.
-            </p>
+            <div className="flex items-baseline gap-3">
+              <span className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white">
+                4.9
+              </span>
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                <p className="text-xs text-slate-500 dark:text-zinc-400">
+                  Based on 112+ verified reviews in Bhopal
+                </p>
+              </div>
+            </div>
+          </div>
 
+          {/* Right Rating Bars */}
+          <div className="space-y-1.5 w-full lg:w-72 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-12 text-slate-500 dark:text-zinc-400">5 stars</span>
+              <div className="flex-1 h-2 rounded-full bg-slate-100 dark:bg-zinc-800 overflow-hidden">
+                <div className="h-full bg-amber-400 rounded-full w-[96%]" />
+              </div>
+              <span className="w-8 text-right font-bold text-slate-700 dark:text-zinc-300">96%</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-12 text-slate-500 dark:text-zinc-400">4 stars</span>
+              <div className="flex-1 h-2 rounded-full bg-slate-100 dark:bg-zinc-800 overflow-hidden">
+                <div className="h-full bg-amber-400 rounded-full w-[4%]" />
+              </div>
+              <span className="w-8 text-right font-bold text-slate-700 dark:text-zinc-300">4%</span>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="flex flex-col sm:flex-row lg:flex-col gap-2">
             <a
-              href="https://www.google.com/search?q=tnt+mma&oq=tnt+mma&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyDQgBEC4YrwEYxwEYgAQyBwgCEAAYgAQyBwgDEAAYgAQyBwgEEAAYgAQyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQgxODUwajBqN6gCALACAA&sourceid=chrome&source=chrome.ob&ie=UTF-8#lpg=cid:CgIgAQ%3D%3D,ik:CAoSHENJQUJJaEJ3anFoV1JyVVRRa25RdGwwbkNGN00%3D"
+              href="https://www.google.com/search?q=tnt+mma"
               target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 text-xs font-bold text-orange-600 dark:text-orange-400 hover:underline"
+              rel="noopener noreferrer"
+              className="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-orange-500/20 text-center flex items-center justify-center gap-2"
             >
               <span>Write a Review on Google</span>
               <ExternalLink className="w-3.5 h-3.5" />
             </a>
-          </div>
-
-          {/* Center: Rating Breakdown Bars (5 Cols) */}
-          <div className="lg:col-span-5 space-y-2 text-xs">
-            <div className="flex items-center gap-3">
-              <span className="w-12 font-bold text-slate-700 dark:text-zinc-300">5 Stars</span>
-              <div className="flex-1 h-3 rounded-full bg-slate-100 dark:bg-zinc-800 overflow-hidden">
-                <div className="h-full bg-amber-400 rounded-full w-[96%]" />
-              </div>
-              <span className="w-8 font-mono text-slate-500 text-right">96%</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <span className="w-12 font-bold text-slate-700 dark:text-zinc-300">4 Stars</span>
-              <div className="flex-1 h-3 rounded-full bg-slate-100 dark:bg-zinc-800 overflow-hidden">
-                <div className="h-full bg-amber-400 rounded-full w-[4%]" />
-              </div>
-              <span className="w-8 font-mono text-slate-500 text-right">4%</span>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <span className="w-12 font-bold text-slate-400 dark:text-zinc-500">3 Stars</span>
-              <div className="flex-1 h-3 rounded-full bg-slate-100 dark:bg-zinc-800 overflow-hidden">
-                <div className="h-full bg-amber-400 rounded-full w-[0%]" />
-              </div>
-              <span className="w-8 font-mono text-slate-400 text-right">0%</span>
-            </div>
-          </div>
-
-          {/* Right: Direct Actions (3 Cols) */}
-          <div className="lg:col-span-3 text-center lg:text-right space-y-3">
             <a
-              href="https://www.google.com/search?q=tnt+mma&oq=tnt+mma&gs_lcrp=EgZjaHJvbWUqBwgAEAAYgAQyBwgAEAAYgAQyDQgBEC4YrwEYxwEYgAQyBwgCEAAYgAQyBwgDEAAYgAQyBwgEEAAYgAQyBggFEEUYPDIGCAYQRRg8MgYIBxBFGDzSAQgxODUwajBqN6gCALACAA&sourceid=chrome&source=chrome.ob&ie=UTF-8#lpg=cid:CgIgAQ%3D%3D,ik:CAoSHENJQUJJaEJ3anFoV1JyVVRRa25RdGwwbkNGN00%3D"
+              href="https://maps.google.com/?q=TNT+MMA+Fitness+Academy+Bhopal"
               target="_blank"
-              rel="noreferrer"
-              className="w-full py-3 rounded-2xl bg-slate-900 dark:bg-zinc-800 hover:bg-orange-500 dark:hover:bg-orange-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-800 dark:text-zinc-200 font-bold text-xs transition-colors text-center"
             >
-              <span>View On Google Maps</span>
-              <ExternalLink className="w-3.5 h-3.5" />
+              View on Google Maps
             </a>
-
-            <p className="text-[11px] text-slate-500 dark:text-zinc-400">
-              100% verified athlete feedback.
-            </p>
           </div>
 
         </div>
 
-        {/* Filter Pills & Live Search */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          
-          {/* Category Pills */}
-          <div className="flex items-center flex-wrap gap-2 text-xs w-full sm:w-auto">
-            {[
-              { id: 'ALL', label: 'All Reviews (112)' },
-              { id: 'MMA', label: '🥊 MMA & Striking' },
-              { id: 'KIDS', label: '👨‍👦 Kids Anti-Bullying' },
-              { id: 'CROSSFIT', label: '🥗 Weight Loss & CrossFit' },
-              { id: 'BJJ', label: '🥋 BJJ Grappling' },
-              { id: 'COACH', label: '⭐ Coach Vikalp' },
-            ].map((cat) => (
+        {/* Filter Controls & Search */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none w-full sm:w-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+            {['ALL', 'MMA', 'CROSSFIT', 'KIDS', 'BJJ', 'COACH'].map((cat) => (
               <button
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-2 rounded-xl font-bold transition-all cursor-pointer ${
-                  selectedCategory === cat.id
-                    ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20'
-                    : 'bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800'
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-3 py-1.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+                  selectedCategory === cat
+                    ? 'bg-orange-500 text-white shadow-sm font-extrabold'
+                    : 'bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-800 hover:border-orange-500/50'
                 }`}
               >
-                {cat.label}
+                {cat === 'ALL' ? 'All Reviews' : cat}
               </button>
             ))}
           </div>
 
-          {/* Search Box */}
           <div className="relative w-full sm:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
-              placeholder="Search in reviews..."
+              placeholder="Search reviews..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-zinc-500 outline-none focus:border-orange-500"
+              className="w-full pl-9 pr-4 py-1.5 text-xs rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white outline-none focus:border-orange-500"
             />
           </div>
-
         </div>
 
-        {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Mobile Swipe Hint */}
+        <div className="flex md:hidden items-center justify-between text-[11px] text-slate-400 dark:text-zinc-500 px-1 font-semibold">
+          <span>👉 Swipe reviews horizontally ({filteredReviews.length})</span>
+          <Link href="/reviews" className="text-orange-500 font-bold flex items-center gap-0.5">
+            <span>All Reviews</span>
+            <ArrowRight className="w-3 h-3" />
+          </Link>
+        </div>
+
+        {/* Reviews: Swipeable on Mobile (<md), Grid on Desktop (md+) */}
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 -mx-4 px-4 md:mx-0 md:px-0">
           {filteredReviews.map((rev) => (
             <div
               key={rev.id}
-              className="rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 p-6 space-y-4 hover:border-orange-500/50 transition-all duration-300 shadow-md hover:shadow-xl flex flex-col justify-between"
+              className="w-[84vw] max-w-[330px] shrink-0 snap-center md:w-auto md:shrink rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 p-5 sm:p-6 space-y-4 flex flex-col justify-between hover:border-orange-500/50 transition-all duration-300 hover:shadow-xl shadow-sm group"
             >
               <div className="space-y-3">
-                {/* Author Bar */}
-                <div className="flex items-center justify-between">
+                {/* Author Info & Avatar */}
+                <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${rev.avatarColor} text-white flex items-center justify-center font-bold text-sm shadow-md`}>
+                    <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${rev.avatarColor} text-white font-bold flex items-center justify-center text-sm shadow-md`}>
                       {rev.name.charAt(0)}
                     </div>
                     <div>
-                      <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1.5">
-                        <span>{rev.name}</span>
+                      <div className="flex items-center gap-1.5">
+                        <h4 className="font-bold text-slate-900 dark:text-white text-xs sm:text-sm">{rev.name}</h4>
                         {rev.isLocalGuide && (
-                          <span className="text-[10px] px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 font-bold">
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-500/30">
                             Local Guide
                           </span>
                         )}
-                      </h4>
-                      <p className="text-[11px] text-slate-500 dark:text-zinc-400">
-                        {rev.reviewsCount ? `${rev.reviewsCount} reviews • ` : ''}{rev.date}
-                      </p>
+                      </div>
+                      <p className="text-[10px] text-slate-400 dark:text-zinc-500">{rev.date}</p>
                     </div>
                   </div>
 
-                  {/* Stars */}
-                  <div className="flex items-center gap-0.5 text-amber-400">
-                    {[...Array(rev.rating)].map((_, i) => (
-                      <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
+                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400">
+                    {rev.categoryLabel}
+                  </span>
                 </div>
 
-                {/* Category Badge */}
-                <span className="inline-block text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/20">
-                  {rev.categoryLabel}
-                </span>
+                {/* Star Rating */}
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(rev.rating)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
 
                 {/* Headline & Body */}
-                <h5 className="font-black text-slate-900 dark:text-white text-sm leading-snug">
-                  &ldquo;{rev.headline}&rdquo;
+                <h5 className="font-bold text-slate-900 dark:text-white text-xs sm:text-sm group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors line-clamp-1">
+                  &quot;{rev.headline}&quot;
                 </h5>
-                <p className="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed line-clamp-3">
                   {rev.comment}
                 </p>
               </div>
 
-              {/* Bottom Card Footer */}
-              <div className="pt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-zinc-500">
-                <span className="flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
-                  <span>Verified Google Athlete</span>
-                </span>
-                <span className="flex items-center gap-1 text-slate-500 dark:text-zinc-400">
-                  <ThumbsUp className="w-3 h-3" />
-                  <span>{rev.helpfulCount}</span>
+              {/* Footer Helpful Button */}
+              <div className="pt-3 border-t border-slate-100 dark:border-zinc-800 flex items-center justify-between text-xs">
+                <button
+                  onClick={() => toggleHelpful(rev.id, rev.helpfulCount)}
+                  className="flex items-center gap-1.5 text-slate-500 dark:text-zinc-400 hover:text-orange-600 dark:hover:text-orange-400 font-semibold cursor-pointer text-[11px]"
+                >
+                  <ThumbsUp className="w-3.5 h-3.5" />
+                  <span>Helpful ({helpfulLikes[rev.id] || rev.helpfulCount})</span>
+                </button>
+
+                <span className="text-[10px] font-bold text-green-600 dark:text-green-400 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3" />
+                  <span>Verified Athlete</span>
                 </span>
               </div>
             </div>

@@ -57,13 +57,13 @@ export default function LocationContact() {
         </div>
 
         {/* Locations & Contact Form Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
           
-          {/* Branch Cards (7 Cols) */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Branch Cards (7 Cols) - Swipeable on mobile */}
+          <div className="lg:col-span-7 flex lg:flex-col gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
             
             {/* Branch 1: Nizamuddin Rd */}
-            <div className="rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 space-y-4 hover:border-orange-500/50 transition-all shadow-md">
+            <div className="w-[84vw] max-w-[340px] shrink-0 snap-center lg:w-auto lg:shrink rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 p-5 sm:p-7 space-y-3 sm:space-y-4 hover:border-orange-500/50 transition-all shadow-md">
               <div className="flex items-start justify-between">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30">
@@ -116,7 +116,7 @@ export default function LocationContact() {
             </div>
 
             {/* Branch 2: Govind Garden */}
-            <div className="rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 space-y-4 hover:border-orange-500/50 transition-all shadow-md">
+            <div className="w-[84vw] max-w-[340px] shrink-0 snap-center lg:w-auto lg:shrink rounded-3xl bg-white dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 p-5 sm:p-7 space-y-3 sm:space-y-4 hover:border-orange-500/50 transition-all shadow-md">
               <div className="flex items-start justify-between">
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-500/30">
