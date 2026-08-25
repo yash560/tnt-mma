@@ -9,6 +9,7 @@ import ProgramsSection from '@/components/landing/ProgramsSection';
 import InteractiveTimetable from '@/components/landing/InteractiveTimetable';
 import PricingCalculator from '@/components/landing/PricingCalculator';
 import GoogleReviewsMarquee from '@/components/landing/GoogleReviewsMarquee';
+import GoogleReviewsSection from '@/components/landing/GoogleReviewsSection';
 import FacilityGallery from '@/components/landing/FacilityGallery';
 import RealPhotoGallery from '@/components/landing/RealPhotoGallery';
 import LocationContact from '@/components/landing/LocationContact';
@@ -120,7 +121,10 @@ export default function HomePage() {
         {/* Membership Plans & Pricing Section */}
         <PricingCalculator onSelectPlan={(planName) => handleOpenTrialModal(planName)} />
 
-        {/* 4.9★ Google Reviews Marquee & Coach Credentials */}
+        {/* 4.9★ Google Reviews Section with Breakdown & Search */}
+        <GoogleReviewsSection isFullPage={false} />
+
+        {/* 4.9★ Google Reviews Continuous Marquee & Coach Credentials */}
         <GoogleReviewsMarquee />
 
         {/* Real Google Photos & Video Training Gallery */}

@@ -161,6 +161,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-white tracking-wide uppercase">Platform & Portals</h4>
               <ul className="space-y-2 text-xs text-slate-400 dark:text-zinc-400">
+                <li><Link href="/reviews" className="hover:text-orange-400 transition-colors">4.9★ Google Reviews (100+)</Link></li>
                 <li><Link href="/gallery" className="text-orange-400 font-semibold hover:underline flex items-center gap-1"><span>Real Photo & Video Gallery</span></Link></li>
                 <li><Link href="/waiver" className="hover:text-orange-400 transition-colors">Sign Digital Waiver</Link></li>
                 <li><Link href="/waiver/qr" className="hover:text-orange-400 transition-colors">Front-Desk Kiosk QR</Link></li>
