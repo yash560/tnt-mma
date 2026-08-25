@@ -28,8 +28,8 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
       id: 'mma',
       category: 'COMBAT',
       title: 'Mixed Martial Arts (MMA)',
-      tagline: 'Cage Control, Striking & Ground-and-Pound',
-      description: 'Comprehensive octagon fighting integrating freestyle striking, Olympic takedowns, fence work, and submission control. Structured for beginners to pro fighters.',
+      tagline: 'The Ultimate Combat System: Cage Control, Striking & Ground-and-Pound',
+      description: 'Comprehensive octagon fighting integrating freestyle striking, Olympic takedowns, fence work, and submission control. Structured for beginners to pro fighters competing at state & national circuits.',
       icon: Swords,
       color: 'from-orange-500 to-red-600',
       badge: 'Pro Octagon Cage',
@@ -46,8 +46,8 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
       id: 'bjj',
       category: 'COMBAT',
       title: 'Brazilian Jiu-Jitsu (BJJ)',
-      tagline: 'Gi & No-Gi Submission Grappling',
-      description: 'Master positional dominance, sweeps, chokes, arm locks, and leverage-based ground fighting where technique triumphs over raw strength. Belt grading included.',
+      tagline: 'The Gentle Art: Gi & No-Gi Submission Grappling',
+      description: 'Master positional dominance, sweeps, chokes, arm locks, and leverage-based ground fighting where technique triumphs over raw strength. Includes formal belt and stripe grading progression.',
       icon: ShieldCheck,
       color: 'from-blue-500 to-indigo-600',
       badge: 'Belt Progression',
@@ -64,7 +64,7 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
       id: 'kickboxing',
       category: 'COMBAT',
       title: 'Muay Thai & Kickboxing',
-      tagline: 'The Art of 8 Limbs: Strikes, Kicks & Clinch',
+      tagline: 'The Art of 8 Limbs: Explosive Strikes, Kicks & Clinch Work',
       description: 'High-calorie burning striking system utilizing punches, elbows, knees, and kicks. Heavy bag drills, Dutch combination sparring, and explosive pad work.',
       icon: Zap,
       color: 'from-amber-500 to-red-500',
@@ -81,8 +81,8 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
     {
       id: 'crossfit',
       category: 'FITNESS',
-      title: 'CrossFit & Conditioning',
-      tagline: 'Explosive Stamina, Tyre Flips & Rig',
+      title: 'CrossFit & High-Intensity Conditioning',
+      tagline: 'Explosive Stamina, Tyre Flips & Functional Strength Rig',
       description: 'Functional movement performed at high intensity. Includes Olympic barbell lifting, kettlebell circuits, battle ropes, tyre flips, and sprint conditioning.',
       icon: Dumbbell,
       color: 'from-emerald-500 to-teal-600',
@@ -99,8 +99,8 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
     {
       id: 'calisthenics',
       category: 'FITNESS',
-      title: 'Calisthenics & Acrobatics',
-      tagline: 'Bodyweight Mastery & Dynamic Moves',
+      title: 'Calisthenics & Bodyweight Stunts',
+      tagline: 'Gymnastic Ring Control, Muscle-Ups & Dynamic Flips',
       description: 'Master strict muscle-ups, handstands, human flags, and gymnastic ring sequences to build immense tendon resilience and core power.',
       icon: Activity,
       color: 'from-purple-500 to-pink-600',
@@ -117,8 +117,8 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
     {
       id: 'kids',
       category: 'KIDS',
-      title: 'Kids Anti-Bullying Academy',
-      tagline: 'Ages 5-14 Discipline, Motor Skills & Safety',
+      title: 'Kids MMA & Anti-Bullying Academy',
+      tagline: 'Ages 5-14 Confidence, Bully Defense & Motor Skills',
       description: 'Non-violent martial arts coaching focused on situational awareness, de-escalation, self-defense escapes, athletic coordination, and building self-respect.',
       icon: GraduationCap,
       color: 'from-rose-500 to-orange-500',
@@ -135,9 +135,9 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
     {
       id: 'nutrition',
       category: 'NUTRITION',
-      title: 'Sports Dietetics & Nutrition',
-      tagline: 'Targeted Plans for Weight Cut & Muscle',
-      description: '1-on-1 sports nutritionist consultation. Customized Indian macro plans tailored for fighters cutting weight, losing fat, or gaining lean mass.',
+      title: 'Sports Dietetics & Nutrition Planning',
+      tagline: 'Targeted Meal Plans for Weight Cut, Muscle Gain & Fat Loss',
+      description: '1-on-1 sports nutritionist consultation. Customized Indian macro plans tailored for fighters cutting weight, working professionals losing belly fat, or athletes gaining lean mass.',
       icon: Apple,
       color: 'from-green-500 to-emerald-600',
       badge: 'Certified Dietician',
@@ -157,44 +157,44 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
     : programs.filter((p) => p.category === activeTab);
 
   return (
-    <section id="programs" className="py-16 sm:py-24 bg-white dark:bg-zinc-950/60 border-t border-slate-200 dark:border-zinc-800/80 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <section id="programs" className="py-24 bg-white dark:bg-zinc-950/60 border-t border-slate-200 dark:border-zinc-800/80 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div className="space-y-2">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider">
               <Flame className="w-3.5 h-3.5" />
               <span>World-Class Combat Disciplines</span>
             </div>
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
               Elite Training Programs
             </h2>
-            <p className="text-slate-600 dark:text-zinc-400 text-xs sm:text-base max-w-2xl">
-              From Octagon cage combat to CrossFit conditioning and Kids Anti-Bullying, train under certified coaches.
+            <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base max-w-2xl">
+              Whether your goal is competing in the cage, sculpting elite functional conditioning, or enrolling your child in anti-bullying self-defense, our academy has a dedicated syllabus.
             </p>
           </div>
 
           {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 md:pb-0 scrollbar-none -mx-4 px-4 md:mx-0 md:px-0">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-none">
             {['ALL', 'COMBAT', 'FITNESS', 'KIDS', 'NUTRITION'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
                   activeTab === tab
-                    ? 'bg-orange-500 text-white shadow-md shadow-orange-500/25 font-extrabold'
-                    : 'bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-zinc-800'
+                    ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/25 font-extrabold'
+                    : 'bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800'
                 }`}
               >
-                {tab === 'ALL' ? 'All' : tab}
+                {tab === 'ALL' ? 'All Disciplines' : tab}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Mobile Swipe Hint */}
-        <div className="flex md:hidden items-center justify-between text-[11px] text-slate-400 dark:text-zinc-500 px-1 font-semibold">
+        {/* Mobile Swipe Hint (< md) */}
+        <div className="flex md:hidden items-center justify-between text-xs text-slate-500 dark:text-zinc-400 px-1 font-semibold">
           <span>👉 Swipe horizontally ({filteredPrograms.length} programs)</span>
           <Link href="/programs" className="text-orange-500 font-bold flex items-center gap-0.5">
             <span>View All</span>
@@ -202,51 +202,108 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
           </Link>
         </div>
 
-        {/* Programs: Horizontal Swipe on Mobile (<md), Responsive Grid on Desktop (md+) */}
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 -mx-4 px-4 md:mx-0 md:px-0">
+        {/* 1. Mobile View: Horizontal Swipe Snap Carousel (< md) */}
+        <div className="flex md:hidden overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4 -mx-4 px-4 gap-4">
           {filteredPrograms.map((prog) => {
             const Icon = prog.icon;
             return (
               <div
                 key={prog.id}
-                className="w-[84vw] max-w-[330px] shrink-0 snap-center md:w-auto md:shrink rounded-3xl bg-slate-50 dark:bg-zinc-900/70 border border-slate-200 dark:border-zinc-800/80 hover:border-orange-500/50 p-5 sm:p-7 space-y-4 sm:space-y-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-sm group"
+                className="w-[84vw] max-w-[330px] shrink-0 snap-center rounded-3xl bg-slate-50 dark:bg-zinc-900/70 border border-slate-200 dark:border-zinc-800/80 p-5 space-y-4 flex flex-col justify-between shadow-sm"
               >
-                <div className="space-y-3 sm:space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-start justify-between">
+                    <div className={`w-11 h-11 rounded-2xl bg-gradient-to-br ${prog.color} flex items-center justify-center text-white shadow-md`}>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700">
+                      {prog.badge}
+                    </span>
+                  </div>
+
+                  <div className="space-y-0.5">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                      {prog.title}
+                    </h3>
+                    <p className="text-xs font-semibold text-orange-600 dark:text-orange-400/90">
+                      {prog.tagline}
+                    </p>
+                  </div>
+
+                  <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed line-clamp-3">
+                    {prog.description}
+                  </p>
+
+                  <ul className="space-y-1 text-xs text-slate-600 dark:text-zinc-400 pt-1">
+                    {prog.curriculum.slice(0, 3).map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-orange-500 shrink-0 mt-0.5" />
+                        <span className="truncate">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-3 border-t border-slate-200 dark:border-zinc-800 space-y-2">
+                  <p className="text-[10px] text-slate-500 dark:text-zinc-400">Coach: <strong className="text-slate-800 dark:text-zinc-200">{prog.coach}</strong></p>
+                  <button
+                    onClick={() => onOpenTrialModal(prog.title)}
+                    className="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1 shadow-md shadow-orange-500/20"
+                  >
+                    <span>Claim Free Trial</span>
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* 2. Desktop View: Pristine 3-Column Responsive Grid (md+) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredPrograms.map((prog) => {
+            const Icon = prog.icon;
+            return (
+              <div
+                key={prog.id}
+                className="rounded-3xl bg-slate-50 dark:bg-zinc-900/70 border border-slate-200 dark:border-zinc-800/80 hover:border-orange-500/50 p-6 sm:p-7 space-y-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl shadow-sm group"
+              >
+                <div className="space-y-4">
                   {/* Card Header & Icon */}
                   <div className="flex items-start justify-between">
-                    <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-br ${prog.color} flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform`}>
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${prog.color} flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform`}>
+                      <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700">
+                    <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700">
                       {prog.badge}
                     </span>
                   </div>
 
                   {/* Title & Tagline */}
-                  <div className="space-y-0.5">
-                    <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-black text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                       {prog.title}
                     </h3>
-                    <p className="text-[11px] sm:text-xs font-semibold text-orange-600 dark:text-orange-400/90">
+                    <p className="text-xs font-semibold text-orange-600 dark:text-orange-400/90">
                       {prog.tagline}
                     </p>
                   </div>
 
                   {/* Description */}
-                  <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed line-clamp-3 md:line-clamp-none">
+                  <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                     {prog.description}
                   </p>
 
                   {/* Syllabus Bulletpoints */}
-                  <div className="space-y-1.5 pt-2 border-t border-slate-200 dark:border-zinc-800/60">
-                    <p className="text-[10px] sm:text-[11px] font-bold text-slate-800 dark:text-zinc-300 uppercase tracking-wider">
+                  <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-zinc-800/60">
+                    <p className="text-[11px] font-bold text-slate-800 dark:text-zinc-300 uppercase tracking-wider">
                       Key Highlights:
                     </p>
-                    <ul className="space-y-1 text-[11px] sm:text-xs text-slate-600 dark:text-zinc-400">
-                      {prog.curriculum.slice(0, 3).map((item, idx) => (
-                        <li key={idx} className="flex items-start gap-1.5">
+                    <ul className="space-y-1.5 text-xs text-slate-600 dark:text-zinc-400">
+                      {prog.curriculum.map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
                           <CheckCircle2 className="w-3.5 h-3.5 text-orange-500 shrink-0 mt-0.5" />
-                          <span className="truncate">{item}</span>
+                          <span>{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -254,16 +311,16 @@ export default function ProgramsSection({ onOpenTrialModal }: ProgramsSectionPro
                 </div>
 
                 {/* Card Footer: Timings & CTA */}
-                <div className="pt-3 border-t border-slate-200 dark:border-zinc-800 space-y-2">
-                  <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-zinc-400 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-200 dark:border-zinc-800 space-y-3">
+                  <div className="text-[11px] text-slate-500 dark:text-zinc-400 flex items-center justify-between">
                     <span>Coach: <strong className="text-slate-800 dark:text-zinc-200 font-semibold">{prog.coach}</strong></span>
                   </div>
                   
                   <button
                     onClick={() => onOpenTrialModal(prog.title)}
-                    className="w-full py-2 sm:py-2.5 rounded-xl bg-white dark:bg-zinc-800 hover:bg-orange-500 dark:hover:bg-orange-500 text-slate-800 dark:text-zinc-200 hover:text-white dark:hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-zinc-700 hover:border-transparent transition-all flex items-center justify-center gap-1.5 group-hover:bg-orange-500 group-hover:text-white group-hover:border-transparent cursor-pointer shadow-sm"
+                    className="w-full py-2.5 rounded-xl bg-white dark:bg-zinc-800 hover:bg-orange-500 dark:hover:bg-orange-500 text-slate-800 dark:text-zinc-200 hover:text-white dark:hover:text-white font-bold text-xs uppercase tracking-wider border border-slate-200 dark:border-zinc-700 hover:border-transparent transition-all flex items-center justify-center gap-1.5 group-hover:bg-orange-500 group-hover:text-white group-hover:border-transparent cursor-pointer shadow-sm"
                   >
-                    <span>Claim Free Trial</span>
+                    <span>Book Trial in this Batch</span>
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
