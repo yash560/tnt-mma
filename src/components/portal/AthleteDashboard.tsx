@@ -23,10 +23,11 @@ import {
   Swords,
   ChevronRight,
   ShieldCheck,
-  Check
+  Check,
+  Utensils
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Member, WorkoutLog, ClassBooking, BeltProgress, TransactionInvoice } from '@/lib/types';
+import { Member, WorkoutLog, ClassBooking, BeltProgress, TransactionInvoice, DietPlan, WorkoutRoutine } from '@/lib/types';
 import { 
   getWorkoutLogs, 
   saveWorkoutLog, 
@@ -39,7 +40,9 @@ import {
   payMemberDues, 
   getSchedule,
   logAttendance,
-  getWaiverById
+  getWaiverById,
+  getDietPlan,
+  getWorkoutRoutine
 } from '@/lib/dataStore';
 import confetti from 'canvas-confetti';
 
@@ -50,13 +53,15 @@ interface AthleteDashboardProps {
 }
 
 export default function AthleteDashboard({ member, onOpenWaiverModal, onRefreshMember }: AthleteDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'OVERVIEW' | 'BOOKINGS' | 'BELT' | 'WORKOUTS' | 'FEES'>('OVERVIEW');
+  const [activeTab, setActiveTab] = useState<'OVERVIEW' | 'BOOKINGS' | 'BELT' | 'DIET' | 'ROUTINE' | 'WORKOUTS' | 'FEES'>('OVERVIEW');
   
   // Data states
   const [bookings, setBookings] = useState<ClassBooking[]>(() => getClassBookings(member.id));
   const [workouts, setWorkouts] = useState<WorkoutLog[]>(() => getWorkoutLogs(member.id));
   const [beltData, setBeltData] = useState<BeltProgress | null>(() => getBeltProgress(member.id));
   const [transactions, setTransactions] = useState<TransactionInvoice[]>(() => getTransactions().filter(t => t.memberId === member.id));
+  const [dietData, setDietData] = useState<DietPlan | null>(() => getDietPlan(member.id) || getDietPlan('mem-101'));
+  const [routineData, setRoutineData] = useState<WorkoutRoutine | null>(() => getWorkoutRoutine(member.id) || getWorkoutRoutine('mem-101'));
   const [schedule] = useState(() => getSchedule());
 
   // Modal states
@@ -193,6 +198,30 @@ export default function AthleteDashboard({ member, onOpenWaiverModal, onRefreshM
         >
           <Award className="w-4 h-4" />
           <span>Belt & Rank Progress</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('DIET')}
+          className={`px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            activeTab === 'DIET'
+              ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20 font-extrabold'
+              : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800'
+          }`}
+        >
+          <Utensils className="w-4 h-4 text-purple-500" />
+          <span>Diet & Nutrition</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('ROUTINE')}
+          className={`px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
+            activeTab === 'ROUTINE'
+              ? 'bg-orange-500 text-white shadow-md shadow-orange-500/20 font-extrabold'
+              : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-zinc-800'
+          }`}
+        >
+          <Dumbbell className="w-4 h-4 text-blue-500" />
+          <span>Combat Workout Plan</span>
         </button>
 
         <button
@@ -524,6 +553,132 @@ export default function AthleteDashboard({ member, onOpenWaiverModal, onRefreshM
             <p className="text-slate-700 dark:text-zinc-300 leading-relaxed italic">
               &ldquo;{beltData?.coachNotes}&rdquo;
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* TAB: DIET & NUTRITION PLAN */}
+      {activeTab === 'DIET' && (
+        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 space-y-6 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-zinc-800">
+            <div>
+              <div className="flex items-center gap-2">
+                <Utensils className="w-5 h-5 text-orange-500" />
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                  Assigned Combat Nutrition Plan
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-zinc-400">
+                Customized by Coach Vikalp (Certified Sports Dietician).
+              </p>
+            </div>
+            <span className="text-xs font-black uppercase px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30 self-start sm:self-auto">
+              Goal: {dietData?.goal || 'FIGHT_CAMP'}
+            </span>
+          </div>
+
+          {/* Daily Macros Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-center space-y-1">
+              <p className="text-[10px] uppercase font-bold text-slate-400">Target Calories</p>
+              <p className="text-2xl font-black text-slate-900 dark:text-white font-mono">{dietData?.dailyCalories || 2650}</p>
+              <p className="text-[10px] text-slate-500">kcal / day</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-center space-y-1">
+              <p className="text-[10px] uppercase font-bold text-red-500">Protein</p>
+              <p className="text-2xl font-black text-red-600 dark:text-red-400 font-mono">{dietData?.proteinGrams || 175}g</p>
+              <p className="text-[10px] text-slate-500">Muscle recovery</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-center space-y-1">
+              <p className="text-[10px] uppercase font-bold text-amber-500">Carbohydrates</p>
+              <p className="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{dietData?.carbsGrams || 280}g</p>
+              <p className="text-[10px] text-slate-500">Sparring endurance</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-center space-y-1">
+              <p className="text-[10px] uppercase font-bold text-blue-500">Hydration</p>
+              <p className="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{dietData?.waterLitres || 4.5}L</p>
+              <p className="text-[10px] text-slate-500">Clean water daily</p>
+            </div>
+          </div>
+
+          {/* Meals Timeline */}
+          <div className="space-y-3">
+            <h4 className="font-bold text-slate-900 dark:text-white text-sm">
+              Daily Meal Breakdown & Timing:
+            </h4>
+            <div className="space-y-3">
+              {dietData?.meals.map((meal, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 space-y-2 text-xs"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-slate-900 dark:text-white text-sm">{meal.mealName}</span>
+                    <span className="text-orange-600 dark:text-orange-400 font-bold font-mono text-[11px]">{meal.time}</span>
+                  </div>
+                  <ul className="space-y-1 text-slate-600 dark:text-zinc-300 text-[11px] list-disc list-inside">
+                    {meal.items.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Coach Notes */}
+          <div className="p-4 rounded-2xl bg-orange-50 dark:bg-zinc-950 border border-orange-200 dark:border-orange-500/30 text-xs space-y-1">
+            <p className="font-bold text-orange-600 dark:text-orange-400 uppercase text-[10px]">Dietician Instructions:</p>
+            <p className="text-slate-700 dark:text-zinc-300">{dietData?.coachNotes}</p>
+          </div>
+        </div>
+      )}
+
+      {/* TAB: ASSIGNED WORKOUT ROUTINE */}
+      {activeTab === 'ROUTINE' && (
+        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 space-y-6 shadow-md">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-zinc-800">
+            <div>
+              <div className="flex items-center gap-2">
+                <Dumbbell className="w-5 h-5 text-orange-500" />
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                  {routineData?.routineTitle || 'MMA & Conditioning Camp'}
+                </h3>
+              </div>
+              <p className="text-xs text-slate-500 dark:text-zinc-400">
+                Assigned by {routineData?.assignedBy || 'Coach Vikalp'}.
+              </p>
+            </div>
+            <span className="text-xs font-black uppercase px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 self-start sm:self-auto">
+              Level: {routineData?.level || 'INTERMEDIATE'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {routineData?.days.map((day, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-2xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 space-y-3 text-xs flex flex-col justify-between"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-black text-orange-600 dark:text-orange-400 text-sm">{day.dayName}</span>
+                    <span className="text-[10px] font-bold text-slate-500">{day.focus}</span>
+                  </div>
+                  <ul className="space-y-2 text-slate-600 dark:text-zinc-300 text-[11px]">
+                    {day.exercises.map((ex, i) => (
+                      <li key={i} className="p-2 rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800/80 space-y-0.5">
+                        <p className="font-bold text-slate-900 dark:text-white">{ex.name}</p>
+                        <p className="text-slate-500 text-[10px] font-mono">{ex.sets} sets × {ex.reps} • Rest: {ex.restSeconds}s</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}

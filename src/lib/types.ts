@@ -210,3 +210,98 @@ export interface KidsBadge {
   awardedDate: string;
   coachComment: string;
 }
+
+export type LeadStatus = 'HOT' | 'WARM' | 'COLD' | 'CONVERTED' | 'LOST';
+export type LeadSource = 'GOOGLE' | 'INSTAGRAM' | 'WALK_IN' | 'REFERRAL' | 'WEBSITE';
+
+export interface EnquiryLead {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  source: LeadSource;
+  status: LeadStatus;
+  interestDiscipline: DisciplineType;
+  preferredBatch: BatchType;
+  notes: string;
+  followUpDate: string;
+  assignedCoach: string;
+  createdAt: string;
+}
+
+export type ExpenseCategory = 'RENT' | 'EQUIPMENT' | 'SALARY' | 'ELECTRICITY' | 'MARKETING' | 'SUPPLEMENTS' | 'MISC';
+
+export interface GymExpense {
+  id: string;
+  title: string;
+  category: ExpenseCategory;
+  amount: number;
+  date: string;
+  paidTo: string;
+  paymentMode: 'UPI' | 'CASH' | 'NET_BANKING';
+  branch: 'Ayodhya Nagar' | 'Govind Garden';
+  notes?: string;
+}
+
+export interface StaffMember {
+  id: string;
+  name: string;
+  role: 'HEAD_COACH' | 'TRAINER' | 'DIETICIAN' | 'FRONT_DESK';
+  phone: string;
+  email: string;
+  baseSalary: number;
+  ptCommission: number;
+  status: 'ACTIVE' | 'ON_LEAVE';
+  specialties: string[];
+  joinedDate: string;
+}
+
+export interface MealItem {
+  mealName: string;
+  time: string;
+  items: string[];
+  calories: number;
+  proteinGrams: number;
+}
+
+export interface DietPlan {
+  id: string;
+  memberId: string;
+  memberName: string;
+  goal: 'FAT_LOSS' | 'MUSCLE_GAIN' | 'FIGHT_CAMP' | 'MAINTENANCE';
+  targetWeightKg: number;
+  dailyCalories: number;
+  proteinGrams: number;
+  carbsGrams: number;
+  fatsGrams: number;
+  meals: MealItem[];
+  waterLitres: number;
+  coachNotes: string;
+  assignedBy: string;
+  assignedDate: string;
+}
+
+export interface ExerciseItem {
+  name: string;
+  sets: number;
+  reps: string;
+  restSeconds: number;
+  notes?: string;
+}
+
+export interface WorkoutDay {
+  dayName: string;
+  focus: string;
+  exercises: ExerciseItem[];
+}
+
+export interface WorkoutRoutine {
+  id: string;
+  memberId: string;
+  memberName: string;
+  routineTitle: string;
+  level: 'BEGINNER' | 'INTERMEDIATE' | 'PRO_FIGHTER';
+  days: WorkoutDay[];
+  assignedBy: string;
+  assignedDate: string;
+}
