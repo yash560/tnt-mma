@@ -157,3 +157,56 @@ export interface PricingPlan {
   features: string[];
   disciplinesIncluded: string[];
 }
+
+export interface WorkoutLog {
+  id: string;
+  memberId: string;
+  memberName: string;
+  date: string;
+  discipline: DisciplineType;
+  roundsSparred: number;
+  durationMinutes: number;
+  wodScore?: string;
+  notes: string;
+  techniqueMastered: string;
+  coachFeedback?: string;
+}
+
+export interface ClassBooking {
+  id: string;
+  memberId: string;
+  memberName: string;
+  classId: string;
+  className: string;
+  classTime: string;
+  classDate: string;
+  discipline: DisciplineType;
+  coachName: string;
+  status: 'CONFIRMED' | 'CANCELLED' | 'ATTENDED';
+  createdAt: string;
+}
+
+export interface BeltProgress {
+  memberId: string;
+  discipline: DisciplineType;
+  currentBelt: string;
+  stripes: number;
+  totalStripesForPromotion: number;
+  nextBelt: string;
+  hoursOnMat: number;
+  requiredMatHours: number;
+  requirements: { title: string; completed: boolean }[];
+  coachNotes: string;
+  lastGradingDate: string;
+}
+
+export interface KidsBadge {
+  id: string;
+  childId: string;
+  badgeName: string;
+  category: 'DISCIPLINE' | 'STRIKING' | 'DEFENSE' | 'FOCUS' | 'RESPECT';
+  icon: string;
+  awardedBy: string;
+  awardedDate: string;
+  coachComment: string;
+}
