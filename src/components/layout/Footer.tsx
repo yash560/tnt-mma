@@ -25,14 +25,14 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
 
   return (
     <>
-      <footer className="bg-black border-t border-zinc-800/80 pt-16 pb-12 relative overflow-hidden">
+      <footer className="bg-slate-900 dark:bg-black border-t border-slate-800 dark:border-zinc-800/80 pt-16 pb-12 relative overflow-hidden text-slate-300 dark:text-zinc-400">
         {/* Ambient background glow */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-48 bg-orange-600/10 blur-[120px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 relative z-10">
           
           {/* Tier 3 Banner (Call to Action Bar) */}
-          <div className="rounded-3xl bg-gradient-to-r from-zinc-900 via-orange-950/40 to-zinc-900 border border-orange-500/30 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-orange-950/20">
+          <div className="rounded-3xl bg-gradient-to-r from-slate-800 via-slate-850 to-slate-800 dark:from-zinc-900 dark:via-orange-950/40 dark:to-zinc-900 border border-orange-500/30 p-8 sm:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
             <div className="space-y-2 text-center md:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-wider border border-orange-500/30">
                 <Flame className="w-3.5 h-3.5 animate-pulse" />
@@ -41,7 +41,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
                 Ready to Unleash Your Inner Warrior?
               </h3>
-              <p className="text-sm text-zinc-400 max-w-xl">
+              <p className="text-sm text-slate-300 dark:text-zinc-400 max-w-xl">
                 Experience Bhopal’s most comprehensive combat sports & functional fitness academy. Claim your free pass or sign your digital waiver online.
               </p>
             </div>
@@ -55,7 +55,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
                 </button>
               ) : (
                 <Link
-                  href="/#trial"
+                  href="/schedule"
                   className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-orange-500/30 hover:scale-105 transition-all"
                 >
                   Book Free 1-Day Trial
@@ -63,7 +63,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               )}
               <Link
                 href="/waiver"
-                className="px-6 py-3.5 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-orange-500/50 hover:bg-zinc-800 text-orange-400 font-bold text-sm tracking-wider flex items-center gap-2 transition-all"
+                className="px-6 py-3.5 rounded-xl bg-slate-800 dark:bg-zinc-900 border border-slate-700 dark:border-zinc-700 hover:border-orange-500/50 hover:bg-slate-700 dark:hover:bg-zinc-800 text-orange-400 font-bold text-sm tracking-wider flex items-center gap-2 transition-all"
               >
                 <FileSignature className="w-4 h-4" />
                 <span>Sign Digital Waiver</span>
@@ -72,14 +72,14 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
           </div>
 
           {/* Tier 2: Credibility Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-y border-zinc-800">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-y border-slate-800 dark:border-zinc-800">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
                 <Star className="w-5 h-5 fill-orange-400 text-orange-400" />
               </div>
               <div>
                 <p className="text-base font-bold text-white">4.9 ★ Rating</p>
-                <p className="text-xs text-zinc-400">100+ Verified Google Reviews</p>
+                <p className="text-xs text-slate-400 dark:text-zinc-400">100+ Verified Google Reviews</p>
               </div>
             </div>
 
@@ -89,7 +89,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               </div>
               <div>
                 <p className="text-base font-bold text-white">5+ Years</p>
-                <p className="text-xs text-zinc-400">Pioneer Combat Academy</p>
+                <p className="text-xs text-slate-400 dark:text-zinc-400">Pioneer Combat Academy</p>
               </div>
             </div>
 
@@ -99,7 +99,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               </div>
               <div>
                 <p className="text-base font-bold text-white">100% Safety</p>
-                <p className="text-xs text-zinc-400">Padded Mats & Certified Coaches</p>
+                <p className="text-xs text-slate-400 dark:text-zinc-400">Padded Mats & Certified Coaches</p>
               </div>
             </div>
 
@@ -109,7 +109,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               </div>
               <div>
                 <p className="text-base font-bold text-white">Kids & Adults</p>
-                <p className="text-xs text-zinc-400">Ages 5 to 55+ Welcome</p>
+                <p className="text-xs text-slate-400 dark:text-zinc-400">Ages 5 to 55+ Welcome</p>
               </div>
             </div>
           </div>
@@ -124,10 +124,10 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
                 </div>
                 <span className="text-xl font-black text-white">TNT MMA & Fitness Academy</span>
               </div>
-              <p className="text-sm text-zinc-400 leading-relaxed pr-4">
+              <p className="text-sm text-slate-300 dark:text-zinc-400 leading-relaxed pr-4">
                 Bhopal’s highest-rated mixed martial arts, Brazilian Jiu-Jitsu, kickboxing, calisthenics, and CrossFit facility. Dedicated to building world-class athletes, confident children, and empowering functional fitness.
               </p>
-              <div className="space-y-2 pt-2 text-xs text-zinc-300">
+              <div className="space-y-2 pt-2 text-xs text-slate-300 dark:text-zinc-300">
                 <div className="flex items-center gap-2">
                   <Phone className="w-4 h-4 text-orange-400" />
                   <a href="tel:+919713217866" className="hover:text-orange-400 transition-colors font-medium">
@@ -147,49 +147,49 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
             {/* Column 2: Disciplines */}
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-white tracking-wide uppercase">Disciplines</h4>
-              <ul className="space-y-2 text-xs text-zinc-400">
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">Mixed Martial Arts (MMA)</Link></li>
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">Brazilian Jiu-Jitsu (BJJ)</Link></li>
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">Muay Thai & Kickboxing</Link></li>
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">CrossFit & Conditioning</Link></li>
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">Calisthenics & Stunts</Link></li>
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">Kids Anti-Bullying Academy</Link></li>
-                <li><Link href="/#programs" className="hover:text-orange-400 transition-colors">Sports Nutrition & Dietetics</Link></li>
+              <ul className="space-y-2 text-xs text-slate-400 dark:text-zinc-400">
+                <li><Link href="/programs#mma" className="hover:text-orange-400 transition-colors">Mixed Martial Arts (MMA)</Link></li>
+                <li><Link href="/programs#bjj" className="hover:text-orange-400 transition-colors">Brazilian Jiu-Jitsu (BJJ)</Link></li>
+                <li><Link href="/programs#kickboxing" className="hover:text-orange-400 transition-colors">Muay Thai & Kickboxing</Link></li>
+                <li><Link href="/programs#crossfit" className="hover:text-orange-400 transition-colors">CrossFit & Conditioning</Link></li>
+                <li><Link href="/programs#calisthenics" className="hover:text-orange-400 transition-colors">Calisthenics & Stunts</Link></li>
+                <li><Link href="/programs#kids" className="hover:text-orange-400 transition-colors">Kids Anti-Bullying Academy</Link></li>
               </ul>
             </div>
 
             {/* Column 3: Quick Links & Portals */}
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-white tracking-wide uppercase">Platform & Portals</h4>
-              <ul className="space-y-2 text-xs text-zinc-400">
+              <ul className="space-y-2 text-xs text-slate-400 dark:text-zinc-400">
                 <li><Link href="/waiver" className="text-orange-400 font-semibold hover:underline flex items-center gap-1"><span>Sign Digital Waiver</span></Link></li>
                 <li><Link href="/waiver/qr" className="hover:text-orange-400 transition-colors">Front-Desk Kiosk QR</Link></li>
-                <li><Link href="/portal" className="hover:text-orange-400 transition-colors">Member / Parent Login</Link></li>
+                <li><Link href="/login" className="hover:text-orange-400 transition-colors">Universal Sign In Portal</Link></li>
+                <li><Link href="/portal" className="hover:text-orange-400 transition-colors">Member / Parent Pass</Link></li>
                 <li><Link href="/admin" className="hover:text-orange-400 transition-colors">Admin Command OS</Link></li>
-                <li><Link href="/#timetable" className="hover:text-orange-400 transition-colors">Live Schedule Timetable</Link></li>
-                <li><Link href="/#pricing" className="hover:text-orange-400 transition-colors">Membership Pricing</Link></li>
+                <li><Link href="/schedule" className="hover:text-orange-400 transition-colors">Live Schedule Timetable</Link></li>
+                <li><Link href="/pricing" className="hover:text-orange-400 transition-colors">Membership Pricing</Link></li>
               </ul>
             </div>
 
             {/* Column 4: Bhopal Branches */}
             <div className="space-y-3">
               <h4 className="text-sm font-bold text-white tracking-wide uppercase">Bhopal Locations</h4>
-              <div className="space-y-3 text-xs text-zinc-400">
-                <div className="border border-zinc-800 p-2.5 rounded-xl bg-zinc-950">
-                  <p className="font-bold text-zinc-200 flex items-center gap-1.5 mb-1">
+              <div className="space-y-3 text-xs text-slate-400 dark:text-zinc-400">
+                <div className="border border-slate-800 dark:border-zinc-800 p-2.5 rounded-xl bg-slate-950 dark:bg-zinc-950">
+                  <p className="font-bold text-slate-200 dark:text-zinc-200 flex items-center gap-1.5 mb-1">
                     <MapPin className="w-3.5 h-3.5 text-orange-400" />
                     Ayodhya Nagar Branch
                   </p>
-                  <p className="text-[11px] text-zinc-400 leading-tight">
+                  <p className="text-[11px] text-slate-400 dark:text-zinc-400 leading-tight">
                     B-11, Nizamuddin Rd, near Kanta Shravan Colony, above Klub Fox showroom, Bhopal 462022
                   </p>
                 </div>
-                <div className="border border-zinc-800 p-2.5 rounded-xl bg-zinc-950">
-                  <p className="font-bold text-zinc-200 flex items-center gap-1.5 mb-1">
+                <div className="border border-slate-800 dark:border-zinc-800 p-2.5 rounded-xl bg-slate-950 dark:bg-zinc-950">
+                  <p className="font-bold text-slate-200 dark:text-zinc-200 flex items-center gap-1.5 mb-1">
                     <MapPin className="w-3.5 h-3.5 text-orange-400" />
                     Govind Garden Branch
                   </p>
-                  <p className="text-[11px] text-zinc-400 leading-tight">
+                  <p className="text-[11px] text-slate-400 dark:text-zinc-400 leading-tight">
                     12-B, Raisen Road, Govind Garden, Govindpura, Bhopal 462023
                   </p>
                 </div>
@@ -198,23 +198,23 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
           </div>
 
           {/* Tier 4: Legal Modals, Copyright & Attribution */}
-          <div className="pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+          <div className="pt-8 border-t border-slate-800 dark:border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-zinc-500">
             <div className="flex flex-wrap items-center gap-4">
               <button 
                 onClick={() => setActiveLegalModal('WAIVER')} 
-                className="hover:text-zinc-300 transition-colors underline cursor-pointer"
+                className="hover:text-slate-300 dark:hover:text-zinc-300 transition-colors underline cursor-pointer"
               >
                 Liability Waiver Policy
               </button>
               <button 
                 onClick={() => setActiveLegalModal('TERMS')} 
-                className="hover:text-zinc-300 transition-colors underline cursor-pointer"
+                className="hover:text-slate-300 dark:hover:text-zinc-300 transition-colors underline cursor-pointer"
               >
                 Academy Rules & Code of Conduct
               </button>
               <button 
                 onClick={() => setActiveLegalModal('PRIVACY')} 
-                className="hover:text-zinc-300 transition-colors underline cursor-pointer"
+                className="hover:text-slate-300 dark:hover:text-zinc-300 transition-colors underline cursor-pointer"
               >
                 Privacy Policy
               </button>
@@ -222,7 +222,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
 
             <div className="text-center sm:text-right space-y-1">
               <p>© {new Date().getFullYear()} TNT MMA Fitness Academy Bhopal. All Rights Reserved.</p>
-              <p className="text-[11px] text-zinc-600">
+              <p className="text-[11px] text-slate-600 dark:text-zinc-600">
                 Engineered with high standards by <a href="https://thewebvale.com" target="_blank" rel="noreferrer" className="text-orange-400/80 hover:text-orange-400 transition-colors font-medium">TheWebVale</a>
               </p>
             </div>
@@ -233,8 +233,8 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
       {/* Legal Modals */}
       {activeLegalModal && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4" data-lenis-prevent>
-          <div className="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl">
-            <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
+          <div className="bg-slate-900 dark:bg-zinc-900 border border-slate-700 dark:border-zinc-700 rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl text-slate-200 dark:text-zinc-300">
+            <div className="p-6 border-b border-slate-800 dark:border-zinc-800 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <ShieldAlert className="w-5 h-5 text-orange-400" />
                 <h3 className="text-lg font-bold text-white">
@@ -245,13 +245,13 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               </div>
               <button 
                 onClick={() => setActiveLegalModal(null)}
-                className="p-1.5 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white"
+                className="p-1.5 rounded-lg bg-slate-800 dark:bg-zinc-800 text-slate-400 hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-6 overflow-y-auto space-y-4 text-xs text-zinc-300 leading-relaxed">
+            <div className="p-6 overflow-y-auto space-y-4 text-xs text-slate-300 dark:text-zinc-300 leading-relaxed">
               {activeLegalModal === 'WAIVER' && (
                 <>
                   <p className="font-semibold text-white">1. Assumption of Risk in Combat Sports:</p>
@@ -289,7 +289,7 @@ export default function Footer({ onOpenTrialModal }: FooterProps) {
               )}
             </div>
 
-            <div className="p-4 border-t border-zinc-800 flex justify-end">
+            <div className="p-4 border-t border-slate-800 dark:border-zinc-800 flex justify-end">
               <button
                 onClick={() => setActiveLegalModal(null)}
                 className="px-5 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs"

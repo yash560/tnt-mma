@@ -32,19 +32,19 @@ export default function FacilityGallery() {
   ];
 
   return (
-    <section className="py-24 bg-zinc-950 border-t border-zinc-800/80">
+    <section className="py-24 bg-white dark:bg-zinc-950 border-t border-slate-200 dark:border-zinc-800/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider">
             <Trophy className="w-3.5 h-3.5" />
             Arena & Equipment
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
             Built for Serious Combat Fitness
           </h2>
-          <p className="text-zinc-400 text-sm sm:text-base">
+          <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base">
             Every inch of our Bhopal academies is engineered with athlete safety, hygiene, and championship equipment in mind.
           </p>
         </div>
@@ -54,17 +54,17 @@ export default function FacilityGallery() {
           {facilityHighlights.map((item, idx) => (
             <div
               key={idx}
-              className="rounded-3xl bg-zinc-900/80 border border-zinc-800 overflow-hidden flex flex-col justify-between hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
+              className="rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 overflow-hidden flex flex-col justify-between hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-sm group"
             >
               {/* Image Banner */}
-              <div className="relative h-48 w-full overflow-hidden bg-zinc-950">
+              <div className="relative h-48 w-full overflow-hidden bg-slate-200 dark:bg-zinc-950">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.image}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-black/80 text-orange-400 border border-orange-500/30 backdrop-blur-md">
                   {item.badge}
                 </span>
@@ -72,10 +72,10 @@ export default function FacilityGallery() {
 
               {/* Copy */}
               <div className="p-5 space-y-2">
-                <h3 className="text-base font-bold text-white group-hover:text-orange-400 transition-colors">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                   {item.title}
                 </h3>
-                <p className="text-xs text-zinc-400 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                   {item.description}
                 </p>
               </div>
