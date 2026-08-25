@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
@@ -14,7 +14,8 @@ import {
   Mail, 
   CheckCircle2, 
   Sparkles,
-  ArrowLeft
+  ArrowLeft,
+  AlertCircle
 } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -24,26 +25,51 @@ import confetti from 'canvas-confetti';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { login, switchPersona, user } = useAuth();
+  const { loginWithEmail, loginWithGoogle, switchPersona, user, logout } = useAuth();
   
-  const [activeTab, setActiveTab] = useState<UserRole>('MEMBER');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('tnt2026');
+  const [email, setEmail] = useState('aarav.sharma@gmail.com');
+  const [password, setPassword] = useState('fighter123');
+  const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  // If already logged in, allow instant redirection
+  const isAlreadyLoggedIn = !!user;
+
+  const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMsg('');
     setIsLoading(true);
 
-    await login(activeTab, email || DEMO_ACCOUNTS[activeTab].email, password);
-    
-    confetti({ particleCount: 60, origin: { y: 0.6 } });
+    const res = await loginWithEmail(email, password);
     setIsLoading(false);
 
-    if (activeTab === 'ADMIN' || activeTab === 'TRAINER') {
-      router.push('/admin');
+    if (res.success) {
+      confetti({ particleCount: 70, origin: { y: 0.6 } });
+      const target = email.includes('admin') || email.includes('vikalp') ? '/admin' : '/portal';
+      router.push(target);
     } else {
+      setErrorMsg(res.error || 'Authentication failed. Please check credentials.');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    setErrorMsg('');
+    
+    // Call Google OAuth login
+    const res = await loginWithGoogle({
+      name: 'Yash Jain',
+      email: 'yashjain.backup.8@gmail.com',
+      photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80',
+    });
+    setGoogleLoading(false);
+
+    if (res.success) {
+      confetti({ particleCount: 80, spread: 80 });
       router.push('/portal');
+    } else {
+      setErrorMsg(res.error || 'Google login failed.');
     }
   };
 
@@ -61,7 +87,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 text-slate-900 dark:text-white flex flex-col justify-between selection:bg-orange-500 selection:text-white">
       <Navbar />
 
-      <main className="flex-1 pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-lg mx-auto w-full space-y-6">
+      <main className="flex-1 pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-md mx-auto w-full space-y-6">
         
         {/* Top Breadcrumb */}
         <Link
@@ -78,128 +104,114 @@ export default function LoginPage() {
             <Flame className="w-7 h-7 text-white" />
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
-            TNT MMA Access Portal
+            TNT MMA Universal Sign In
           </h1>
           <p className="text-xs text-slate-500 dark:text-zinc-400 max-w-sm mx-auto">
-            Select your role to sign into your fighter pass, parent portal, or coach command hub.
+            Sign in with your email or Google account to access your digital fighter pass or admin hub.
           </p>
         </div>
 
-        {/* 4-Role Tab Selector */}
-        <div className="grid grid-cols-4 gap-1.5 p-1.5 rounded-2xl bg-slate-200/80 dark:bg-zinc-900 border border-slate-300/60 dark:border-zinc-800">
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('MEMBER');
-              setEmail(DEMO_ACCOUNTS.MEMBER.email);
-            }}
-            className={`py-2.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all flex flex-col items-center gap-1 cursor-pointer ${
-              activeTab === 'MEMBER'
-                ? 'bg-white dark:bg-zinc-800 text-orange-600 dark:text-orange-400 shadow-md font-extrabold'
-                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <UserCircle2 className="w-4 h-4" />
-            <span>Fighter</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('PARENT');
-              setEmail(DEMO_ACCOUNTS.PARENT.email);
-            }}
-            className={`py-2.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all flex flex-col items-center gap-1 cursor-pointer ${
-              activeTab === 'PARENT'
-                ? 'bg-white dark:bg-zinc-800 text-orange-600 dark:text-orange-400 shadow-md font-extrabold'
-                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <GraduationCap className="w-4 h-4" />
-            <span>Parent</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('TRAINER');
-              setEmail(DEMO_ACCOUNTS.TRAINER.email);
-            }}
-            className={`py-2.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all flex flex-col items-center gap-1 cursor-pointer ${
-              activeTab === 'TRAINER'
-                ? 'bg-white dark:bg-zinc-800 text-orange-600 dark:text-orange-400 shadow-md font-extrabold'
-                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <Dumbbell className="w-4 h-4" />
-            <span>Trainer</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setActiveTab('ADMIN');
-              setEmail(DEMO_ACCOUNTS.ADMIN.email);
-            }}
-            className={`py-2.5 rounded-xl font-bold text-[11px] uppercase tracking-wider transition-all flex flex-col items-center gap-1 cursor-pointer ${
-              activeTab === 'ADMIN'
-                ? 'bg-white dark:bg-zinc-800 text-orange-600 dark:text-orange-400 shadow-md font-extrabold'
-                : 'text-slate-600 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'
-            }`}
-          >
-            <ShieldCheck className="w-4 h-4" />
-            <span>Admin</span>
-          </button>
-        </div>
-
-        {/* Login Box */}
-        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xl space-y-6">
-          
-          <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800 text-xs">
-            <div>
-              <p className="font-bold text-slate-900 dark:text-white">
-                {activeTab === 'MEMBER' && 'Athlete / Member Login'}
-                {activeTab === 'PARENT' && 'Kids Batch Parent Portal'}
-                {activeTab === 'TRAINER' && 'Coach & Trainer Hub'}
-                {activeTab === 'ADMIN' && 'Super Admin Operations (Vikalp)'}
-              </p>
-              <p className="text-[11px] text-slate-500 dark:text-zinc-400">
-                Sign in with verified credentials
-              </p>
+        {/* If Already Logged In */}
+        {isAlreadyLoggedIn && (
+          <div className="p-5 rounded-3xl bg-white dark:bg-zinc-900 border-2 border-orange-500/50 shadow-xl text-center space-y-4">
+            <div className="flex items-center justify-center gap-3">
+              <img
+                src={user.avatarUrl}
+                alt={user.name}
+                className="w-12 h-12 rounded-full object-cover border-2 border-orange-500"
+              />
+              <div className="text-left">
+                <p className="text-sm font-bold text-slate-900 dark:text-white">{user.name}</p>
+                <p className="text-xs text-slate-500 dark:text-zinc-400">{user.email} ({user.role})</p>
+              </div>
             </div>
-            <span className="px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-950/60 text-orange-600 dark:text-orange-400 font-mono text-[10px] font-bold">
-              {activeTab} MODE
-            </span>
+
+            <div className="grid grid-cols-2 gap-2">
+              <Link
+                href={user.role === 'ADMIN' || user.role === 'TRAINER' ? '/admin' : '/portal'}
+                className="py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider text-center"
+              >
+                Go to Dashboard
+              </Link>
+              <button
+                onClick={logout}
+                className="py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 font-bold text-xs hover:bg-red-50 hover:text-red-600"
+              >
+                Switch Account
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Main Sign In Card */}
+        <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 p-6 sm:p-8 space-y-5 shadow-xl">
+          
+          {/* Google Login Button */}
+          <button
+            type="button"
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+            className="w-full py-3 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-orange-500/50 text-slate-800 dark:text-zinc-200 font-bold text-xs flex items-center justify-center gap-3 shadow-sm hover:shadow-md transition-all cursor-pointer"
+          >
+            {/* Google Multicolored Icon */}
+            <svg className="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+              <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+            </svg>
+            <span>{googleLoading ? 'Connecting to Google...' : 'Continue with Google'}</span>
+          </button>
+
+          <div className="flex items-center gap-3">
+            <div className="flex-1 h-px bg-slate-100 dark:bg-zinc-800" />
+            <span className="text-[10px] uppercase font-bold text-slate-400">or sign in with email</span>
+            <div className="flex-1 h-px bg-slate-100 dark:bg-zinc-800" />
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-4 text-xs">
-            <div className="space-y-1.5">
-              <label className="font-bold text-slate-700 dark:text-zinc-300">Registered Email / Phone</label>
+          {errorMsg && (
+            <div className="p-3 rounded-xl bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 text-xs flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0" />
+              <span>{errorMsg}</span>
+            </div>
+          )}
+
+          {/* Email / Password Form */}
+          <form onSubmit={handleEmailLogin} className="space-y-4 text-xs">
+            <div className="space-y-1">
+              <label className="font-bold text-slate-700 dark:text-zinc-300">Email Address</label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   required
-                  value={email || DEMO_ACCOUNTS[activeTab].email}
+                  placeholder="name@example.com"
+                  value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 focus:border-orange-500 text-slate-900 dark:text-white outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white outline-none focus:border-orange-500"
                 />
               </div>
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <div className="flex items-center justify-between">
                 <label className="font-bold text-slate-700 dark:text-zinc-300">Password</label>
-                <span className="text-[10px] text-slate-400 font-mono">Demo: tnt2026</span>
+                <Link
+                  href="/forgot-password"
+                  className="text-[11px] text-orange-600 dark:text-orange-400 hover:underline font-semibold"
+                >
+                  Forgot Password?
+                </Link>
               </div>
               <div className="relative">
-                <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3.5" />
+                <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   required
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-9 pr-4 py-3 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 focus:border-orange-500 text-slate-900 dark:text-white outline-none"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-white outline-none focus:border-orange-500"
                 />
               </div>
             </div>
@@ -207,74 +219,66 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-orange-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>{isLoading ? 'Authenticating...' : `Enter ${activeTab === 'ADMIN' ? 'Admin Hub' : 'Member Portal'}`}</span>
+              <span>{isLoading ? 'Authenticating...' : 'Sign In'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
 
-          {/* Quick Showcase 1-Click Persona Bar */}
-          <div className="pt-4 border-t border-slate-100 dark:border-zinc-800 space-y-3">
-            <p className="text-[11px] font-bold text-slate-500 dark:text-zinc-400 uppercase tracking-wider text-center flex items-center justify-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-              1-Click Client Showcase Switchers
+          {/* Quick Demo Personas */}
+          <div className="space-y-2 pt-3 border-t border-slate-100 dark:border-zinc-800">
+            <p className="text-[10px] uppercase font-bold text-slate-400 text-center">
+              ⚡ Instant 1-Click Demo Accounts:
             </p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-1.5 text-[10px]">
               <button
                 type="button"
-                onClick={() => handleQuickDemo('ADMIN')}
-                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-orange-50 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 text-left transition-colors cursor-pointer"
+                onClick={() => {
+                  setEmail('vikalp@tntmma.com');
+                  setPassword('admin123');
+                  handleQuickDemo('ADMIN');
+                }}
+                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-orange-500 font-bold text-slate-800 dark:text-zinc-200 text-center cursor-pointer"
               >
-                <p className="font-bold text-[11px] text-slate-900 dark:text-white">Coach Vikalp</p>
-                <p className="text-[10px] text-orange-600 dark:text-orange-400">👑 Super Admin Hub</p>
+                👑 Coach Vikalp (Admin)
               </button>
 
               <button
                 type="button"
-                onClick={() => handleQuickDemo('MEMBER')}
-                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-orange-50 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 text-left transition-colors cursor-pointer"
+                onClick={() => {
+                  setEmail('aarav.sharma@gmail.com');
+                  setPassword('fighter123');
+                  handleQuickDemo('MEMBER');
+                }}
+                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-orange-500 font-bold text-slate-800 dark:text-zinc-200 text-center cursor-pointer"
               >
-                <p className="font-bold text-[11px] text-slate-900 dark:text-white">Aarav Sharma</p>
-                <p className="text-[10px] text-blue-600 dark:text-blue-400">🥋 Adult Fighter Pass</p>
+                🥋 Aarav (Fighter)
               </button>
 
               <button
                 type="button"
-                onClick={() => handleQuickDemo('PARENT')}
-                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-orange-50 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 text-left transition-colors cursor-pointer"
+                onClick={() => {
+                  setEmail('sanjay.patel@gmail.com');
+                  setPassword('parent123');
+                  handleQuickDemo('PARENT');
+                }}
+                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-orange-500 font-bold text-slate-800 dark:text-zinc-200 text-center cursor-pointer"
               >
-                <p className="font-bold text-[11px] text-slate-900 dark:text-white">Sanjay Patel</p>
-                <p className="text-[10px] text-amber-600 dark:text-amber-400">👨‍👦 Kids Batch Parent</p>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleQuickDemo('TRAINER')}
-                className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-800 hover:bg-orange-50 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 text-left transition-colors cursor-pointer"
-              >
-                <p className="font-bold text-[11px] text-slate-900 dark:text-white">Coach Rohit</p>
-                <p className="text-[10px] text-emerald-600 dark:text-emerald-400">🏋️ Trainer Check-In</p>
+                👨‍👦 Sanjay (Parent)
               </button>
             </div>
           </div>
 
-        </div>
+          <div className="text-center pt-2">
+            <p className="text-xs text-slate-500 dark:text-zinc-400">
+              Don&apos;t have an account yet?{' '}
+              <Link href="/signup" className="text-orange-600 dark:text-orange-400 font-bold hover:underline">
+                Register as Member →
+              </Link>
+            </p>
+          </div>
 
-        {/* Links to Signup & Waiver */}
-        <div className="text-center space-y-2 text-xs text-slate-500 dark:text-zinc-400">
-          <p>
-            New to TNT MMA Academy?{' '}
-            <Link href="/signup" className="text-orange-600 dark:text-orange-400 font-bold hover:underline">
-              Create New Account & Register
-            </Link>
-          </p>
-          <p>
-            Need to sign the legal liability form only?{' '}
-            <Link href="/waiver" className="text-slate-700 dark:text-zinc-300 font-semibold hover:underline">
-              Open Digital Waiver
-            </Link>
-          </p>
         </div>
 
       </main>

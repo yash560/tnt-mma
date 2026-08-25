@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { QRCodeSVG } from 'qrcode.react';
 import confetti from 'canvas-confetti';
-import { saveTrialBooking } from '@/lib/dataStore';
+import { saveTrialBooking, saveEnquiryLead } from '@/lib/dataStore';
 import { TrialBooking, DisciplineType } from '@/lib/types';
 import Link from 'next/link';
 
@@ -63,6 +63,23 @@ export default function FreeTrialModal({ isOpen, onClose, defaultDiscipline }: F
     };
 
     saveTrialBooking(newBooking);
+    
+    // Also save directly into CRM Leads pipeline for Coach / Admin
+    saveEnquiryLead({
+      id: `lead-trial-${Date.now()}`,
+      name,
+      phone,
+      email: email || `${name.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
+      source: 'FREE_TRIAL',
+      status: 'HOT',
+      interestDiscipline: discipline,
+      preferredBatch: preferredTime.includes('06:00 PM') ? 'EVENING' : 'MORNING',
+      notes: `Claimed 1-Day Free Trial Pass (${passId}) for ${preferredDate} at ${branch}.`,
+      followUpDate: preferredDate,
+      assignedCoach: 'Coach Vikalp',
+      createdAt: new Date().toISOString().split('T')[0],
+    });
+
     setGeneratedPass(newBooking);
 
     // Fire Confetti

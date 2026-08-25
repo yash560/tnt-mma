@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import SmoothScroll from '@/components/providers/SmoothScroll';
 import { AuthProvider } from '@/context/AuthContext';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 export const metadata: Metadata = {
   title: 'TNT MMA & Fitness Academy | Bhopal’s #1 Combat & CrossFit Gym (4.9★)',
@@ -54,9 +55,11 @@ export default function RootLayout({
       </head>
       <body className="antialiased selection:bg-orange-500 selection:text-white">
         <AuthProvider>
-          <SmoothScroll>
-            {children}
-          </SmoothScroll>
+          <LanguageProvider>
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>

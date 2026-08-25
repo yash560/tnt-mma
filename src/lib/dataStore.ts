@@ -591,7 +591,7 @@ export function convertLeadToMember(leadId: string, planName: string = '1-Month 
     email: lead.email || `${lead.name.toLowerCase().replace(/\s+/g, '')}@gmail.com`,
     phone: lead.phone,
     role: 'MEMBER',
-    batch: lead.preferredBatch,
+    batch: lead.preferredBatch || 'EVENING',
     status: 'ACTIVE',
     joinedDate: new Date().toISOString().split('T')[0],
     expiryDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
@@ -600,7 +600,7 @@ export function convertLeadToMember(leadId: string, planName: string = '1-Month 
     planAmount,
     balanceDue: 0,
     beltRank: 'Striking Level 1',
-    discipline: lead.interestDiscipline,
+    discipline: lead.interestDiscipline || 'MMA',
     emergencyContact: {
       name: 'Emergency Contact',
       relationship: 'Family',

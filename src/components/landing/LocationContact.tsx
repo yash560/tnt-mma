@@ -12,7 +12,7 @@ import {
   Flame,
   FileSignature
 } from 'lucide-react';
-import Link from 'next/link';
+import { saveEnquiryLead } from '@/lib/dataStore';
 
 export default function LocationContact() {
   const [inquiryName, setInquiryName] = useState('');
@@ -23,6 +23,18 @@ export default function LocationContact() {
   const handleInquirySubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!inquiryName || !inquiryPhone) return;
+
+    saveEnquiryLead({
+      id: `lead-contact-${Date.now()}`,
+      name: inquiryName,
+      phone: inquiryPhone,
+      source: 'WEBSITE',
+      status: 'HOT',
+      notes: inquiryMessage || 'Direct website contact form inquiry.',
+      assignedCoach: 'Coach Vikalp',
+      createdAt: new Date().toISOString().split('T')[0],
+    });
+
     setSubmitted(true);
   };
 

@@ -11,33 +11,42 @@ import {
   ShieldCheck, 
   UserCircle2, 
   Phone, 
-  ChevronDown,
-  Sparkles,
-  CalendarDays,
-  Swords,
-  Dumbbell,
-  GraduationCap,
-  Activity,
-  Zap,
-  MapPin,
-  Star,
-  Sun,
-  Moon,
-  LogOut,
-  ArrowRight,
-  Camera
+  ChevronDown, 
+  Sparkles, 
+  CalendarDays, 
+  Swords, 
+  Dumbbell, 
+  GraduationCap, 
+  Activity, 
+  Zap, 
+  MapPin, 
+  Star, 
+  Sun, 
+  Moon, 
+  LogOut, 
+  ArrowRight, 
+  Camera,
+  Globe,
+  Settings,
+  User,
+  QrCode,
+  Lock
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Navbar() {
   const pathname = usePathname();
   const { user, theme, toggleTheme, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
+  
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Dropdown states
   const [programsDropdownOpen, setProgramsDropdownOpen] = useState(false);
   const [academyDropdownOpen, setAcademyDropdownOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -48,30 +57,33 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close dropdowns on outside click or route change
+  // Close dropdowns on route change
   useEffect(() => {
     setProgramsDropdownOpen(false);
     setAcademyDropdownOpen(false);
+    setUserMenuOpen(false);
     setMobileMenuOpen(false);
   }, [pathname]);
 
   const combatPrograms = [
-    { title: 'Mixed Martial Arts (MMA)', desc: 'Pro Octagon cage work, wrestling & strikes', href: '/programs#mma', icon: Swords, color: 'text-orange-500' },
-    { title: 'Brazilian Jiu-Jitsu (BJJ)', desc: 'Gi & No-Gi submission grappling & belt grading', href: '/programs#bjj', icon: ShieldCheck, color: 'text-blue-500' },
-    { title: 'Muay Thai Kickboxing', desc: 'Heavy bag drills, Dutch striking & clinch', href: '/programs#kickboxing', icon: Zap, color: 'text-amber-500' },
-    { title: 'CrossFit & Conditioning', desc: 'Olympic lifting, tyre flips & stamina rig', href: '/programs#crossfit', icon: Dumbbell, color: 'text-emerald-500' },
+    { title: t.feat_mma_title, desc: 'Pro Octagon cage work, wrestling & strikes', href: '/programs#mma', icon: Swords, color: 'text-orange-500' },
+    { title: t.feat_bjj_title, desc: 'Gi & No-Gi submission grappling & belt grading', href: '/programs#bjj', icon: ShieldCheck, color: 'text-blue-500' },
+    { title: t.feat_kickboxing_title, desc: 'Heavy bag drills, Dutch striking & clinch', href: '/programs#kickboxing', icon: Zap, color: 'text-amber-500' },
+    { title: t.feat_crossfit_title, desc: 'Olympic lifting, tyre flips & stamina rig', href: '/programs#crossfit', icon: Dumbbell, color: 'text-emerald-500' },
     { title: 'Calisthenics & Stunts', desc: 'Muscle-ups, gymnastic rings & acrobatics', href: '/programs#calisthenics', icon: Activity, color: 'text-purple-500' },
-    { title: 'Kids MMA & Anti-Bullying', desc: 'Ages 5-14 confidence, motor skills & safety', href: '/programs#kids', icon: GraduationCap, color: 'text-orange-400' },
+    { title: t.feat_kids_title, desc: 'Ages 5-14 confidence, motor skills & safety', href: '/programs#kids', icon: GraduationCap, color: 'text-orange-400' },
   ];
 
   const academyLinks = [
-    { title: 'Weekly Mat Timetable', desc: 'Morning, afternoon kids & evening fight slots', href: '/schedule', icon: CalendarDays },
-    { title: 'Real Photo & Video Gallery', desc: 'Authentic photos from Bhopal mats & lake runs', href: '/gallery', icon: Camera },
+    { title: t.nav_timetable, desc: 'Morning, afternoon kids & evening fight slots', href: '/schedule', icon: CalendarDays },
+    { title: t.nav_gallery, desc: 'Authentic photos from Bhopal mats & lake runs', href: '/gallery', icon: Camera },
     { title: 'Arena & Facilities Tour', desc: 'Octagon cage, grappling mats & heavy bags', href: '/about#facilities', icon: Flame },
     { title: 'Coaching Staff & Founders', desc: 'Head Coach Vikalp & certified trainers', href: '/about#coaches', icon: UserCircle2 },
-    { title: '4.9★ Google Reviews', desc: '100+ verified Bhopal athlete reviews', href: '/reviews', icon: Star },
-    { title: 'Bhopal Branches Locator', desc: 'Ayodhya Nagar & Govind Garden facilities', href: '/contact', icon: MapPin },
+    { title: t.nav_reviews, desc: '100+ verified Bhopal athlete reviews (4.9★)', href: '/reviews', icon: Star },
+    { title: t.nav_contact, desc: 'Ayodhya Nagar & Govind Garden facilities', href: '/contact', icon: MapPin },
   ];
+
+  const dashboardHref = user ? (user.role === 'ADMIN' || user.role === 'TRAINER' ? '/admin' : '/portal') : '/login';
 
   return (
     <>
@@ -121,7 +133,7 @@ export default function Navbar() {
                     : 'text-slate-700 dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400'
                 }`}
               >
-                <span>Disciplines</span>
+                <span>{t.nav_programs}</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${programsDropdownOpen ? 'rotate-180 text-orange-500' : ''}`} />
               </button>
 
@@ -169,12 +181,12 @@ export default function Navbar() {
             >
               <button
                 className={`text-sm font-semibold flex items-center gap-1.5 py-2 transition-colors cursor-pointer ${
-                  pathname === '/schedule' || pathname === '/about' || pathname === '/contact'
+                  pathname === '/schedule' || pathname === '/about' || pathname === '/contact' || pathname === '/gallery' || pathname === '/reviews'
                     ? 'text-orange-600 dark:text-orange-400 font-bold'
                     : 'text-slate-700 dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400'
                 }`}
               >
-                <span>Academy & Schedule</span>
+                <span>{t.nav_about} & {t.nav_timetable}</span>
                 <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${academyDropdownOpen ? 'rotate-180 text-orange-500' : ''}`} />
               </button>
 
@@ -207,7 +219,7 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Direct Links */}
+            {/* Direct Link: Pricing */}
             <Link
               href="/pricing"
               className={`text-sm font-semibold transition-colors ${
@@ -216,9 +228,10 @@ export default function Navbar() {
                   : 'text-slate-700 dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400'
               }`}
             >
-              Pricing Plans
+              {t.nav_pricing}
             </Link>
 
+            {/* Digital Waiver CTA */}
             <Link
               href="/waiver"
               className={`text-sm font-semibold flex items-center gap-1.5 px-3 py-1 rounded-xl transition-all ${
@@ -228,58 +241,114 @@ export default function Navbar() {
               }`}
             >
               <FileSignature className="w-3.5 h-3.5" />
-              <span>Digital Waiver</span>
+              <span>{t.nav_waiver}</span>
             </Link>
           </nav>
 
-          {/* Right Controls: Theme Toggle + Unified Access Button */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Right Controls: Multi-Lingual + Theme Toggle + User Dropdown */}
+          <div className="hidden sm:flex items-center gap-2.5">
             
-            {/* Theme Toggle Button */}
+            {/* Multi-Lingual Switcher */}
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+              className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 font-bold text-xs flex items-center gap-1.5 hover:border-orange-500 transition-colors cursor-pointer"
+              title="Toggle English / Hindi (हिंदी)"
+            >
+              <Globe className="w-3.5 h-3.5 text-orange-500" />
+              <span>{language === 'en' ? 'EN' : 'हिंदी'}</span>
+            </button>
+
+            {/* Dark / Light Mode Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors cursor-pointer"
+              className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-zinc-300 hover:text-orange-600 dark:hover:text-orange-400 transition-colors cursor-pointer"
               title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
               aria-label="Toggle Theme"
             >
               {theme === 'light' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
             </button>
 
-            {/* Unified Access / User Account Button */}
+            {/* Auth State Button / Dropdown */}
             {user ? (
-              <div className="flex items-center gap-2">
-                <Link
-                  href={user.role === 'ADMIN' ? '/admin' : '/portal'}
-                  className="px-4 py-2 rounded-xl bg-slate-900 dark:bg-zinc-800 text-white font-bold text-xs flex items-center gap-2 hover:bg-orange-600 dark:hover:bg-orange-500 transition-all shadow-md"
+              <div className="relative">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="px-3.5 py-1.5 rounded-xl bg-slate-900 dark:bg-zinc-800 hover:bg-slate-800 text-white font-bold text-xs flex items-center gap-2 shadow-md transition-all cursor-pointer"
                 >
-                  <UserCircle2 className="w-4 h-4 text-orange-400" />
-                  <span className="max-w-[120px] truncate">{user.name.split(' ')[0]}</span>
-                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-300 font-mono">
+                  <img
+                    src={user.avatarUrl}
+                    alt={user.name}
+                    className="w-5 h-5 rounded-full object-cover border border-orange-400"
+                  />
+                  <span className="max-w-[100px] truncate">{user.name.split(' ')[0]}</span>
+                  <span className="text-[9px] uppercase px-1.5 py-0.2 rounded bg-orange-500/30 text-orange-300 font-mono">
                     {user.role}
                   </span>
-                </Link>
-                <button
-                  onClick={logout}
-                  className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-500 hover:text-red-600 transition-colors cursor-pointer"
-                  title="Logout"
-                >
-                  <LogOut className="w-4 h-4" />
+                  <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                 </button>
+
+                {/* User Dropdown Menu */}
+                {userMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-56 p-2 rounded-2xl bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 shadow-2xl space-y-1 text-xs z-50 animate-in fade-in zoom-in-95 duration-150">
+                    <div className="p-2.5 border-b border-slate-100 dark:border-zinc-800">
+                      <p className="font-bold text-slate-900 dark:text-white truncate">{user.name}</p>
+                      <p className="text-[11px] text-slate-500 dark:text-zinc-400 truncate">{user.email}</p>
+                    </div>
+
+                    <Link
+                      href={dashboardHref}
+                      className="p-2 rounded-xl hover:bg-orange-50 dark:hover:bg-zinc-900 text-slate-800 dark:text-zinc-200 font-bold flex items-center gap-2"
+                    >
+                      <QrCode className="w-4 h-4 text-orange-500" />
+                      <span>{user.role === 'ADMIN' ? 'Admin Command Hub' : 'Fighter Pass & Timetable'}</span>
+                    </Link>
+
+                    <Link
+                      href="/profile"
+                      className="p-2 rounded-xl hover:bg-orange-50 dark:hover:bg-zinc-900 text-slate-800 dark:text-zinc-200 font-bold flex items-center gap-2"
+                    >
+                      <Settings className="w-4 h-4 text-slate-400" />
+                      <span>{t.nav_profile}</span>
+                    </Link>
+
+                    <button
+                      onClick={logout}
+                      className="w-full text-left p-2 rounded-xl hover:bg-red-50 dark:hover:bg-red-950/40 text-red-600 dark:text-red-400 font-bold flex items-center gap-2 cursor-pointer"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>{t.nav_logout}</span>
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
-              <Link
-                href="/login"
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
-              >
-                <UserCircle2 className="w-4 h-4" />
-                <span>Sign In / Portal</span>
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login"
+                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-zinc-800 text-slate-800 dark:text-zinc-200 font-bold text-xs transition-colors"
+                >
+                  {t.nav_signin}
+                </Link>
+
+                <Link
+                  href="/signup"
+                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
+                >
+                  {t.nav_signup}
+                </Link>
+              </div>
             )}
 
           </div>
 
           {/* Mobile Menu Toggle */}
           <div className="flex lg:hidden items-center gap-2">
+            <button
+              onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
+              className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-xs font-bold"
+            >
+              {language === 'en' ? 'EN' : 'हिं'}
+            </button>
             <button
               onClick={toggleTheme}
               className="p-2 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-zinc-300"
@@ -321,88 +390,94 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
             >
-              Home
+              {t.nav_home}
             </Link>
             <Link
               href="/programs"
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
             >
-              Combat Disciplines & Curriculum
+              {t.nav_programs}
             </Link>
             <Link
               href="/schedule"
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
             >
-              Weekly Class Schedule
+              {t.nav_timetable}
+            </Link>
+            <Link
+              href="/gallery"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
+            >
+              {t.nav_gallery}
+            </Link>
+            <Link
+              href="/reviews"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
+            >
+              {t.nav_reviews}
             </Link>
             <Link
               href="/pricing"
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
             >
-              Membership Plans & Pricing
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
-            >
-              About Coaches & Facilities
+              {t.nav_pricing}
             </Link>
             <Link
               href="/waiver"
               onClick={() => setMobileMenuOpen(false)}
-              className="block p-3 rounded-xl bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-500/30"
+              className="block p-3 rounded-xl bg-orange-50 dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 font-bold"
             >
-              Digital Legal Waiver
+              {t.nav_waiver}
             </Link>
             <Link
               href="/contact"
               onClick={() => setMobileMenuOpen(false)}
               className="block p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-zinc-900 text-slate-900 dark:text-white"
             >
-              Bhopal Locations & Contact
+              {t.nav_contact}
             </Link>
           </div>
 
-          <div className="pt-4 border-t border-slate-200 dark:border-zinc-800 space-y-3">
+          <div className="pt-4 border-t border-slate-200 dark:border-zinc-800 space-y-2">
             {user ? (
               <div className="space-y-2">
                 <Link
-                  href={user.role === 'ADMIN' ? '/admin' : '/portal'}
+                  href={dashboardHref}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block w-full py-3.5 rounded-xl bg-orange-500 text-white font-bold text-center text-xs uppercase"
+                  className="block w-full py-3 rounded-xl bg-slate-900 dark:bg-zinc-800 text-white text-center font-bold text-xs uppercase"
                 >
-                  Open {user.role === 'ADMIN' ? 'Admin Hub' : 'Member Portal'}
+                  Open {user.role === 'ADMIN' ? 'Admin Hub' : 'Fighter Pass'}
                 </Link>
                 <button
-                  onClick={() => {
-                    logout();
-                    setMobileMenuOpen(false);
-                  }}
-                  className="block w-full py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-400 font-semibold text-center text-xs"
+                  onClick={() => { logout(); setMobileMenuOpen(false); }}
+                  className="w-full py-2 rounded-xl bg-red-50 dark:bg-red-950/40 text-red-600 font-bold text-xs"
                 >
-                  Sign Out
+                  {t.nav_logout}
                 </button>
               </div>
             ) : (
-              <Link
-                href="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-red-600 text-white font-bold text-center text-xs uppercase tracking-wider shadow-lg"
-              >
-                Sign In to Member / Admin Portal
-              </Link>
+              <div className="grid grid-cols-2 gap-2">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-3 rounded-xl bg-slate-100 dark:bg-zinc-900 text-center font-bold text-xs"
+                >
+                  {t.nav_signin}
+                </Link>
+                <Link
+                  href="/signup"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="py-3 rounded-xl bg-orange-500 text-white text-center font-bold text-xs uppercase"
+                >
+                  {t.nav_signup}
+                </Link>
+              </div>
             )}
-            <a
-              href="tel:+919713217866"
-              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-slate-100 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 font-semibold text-xs border border-slate-200 dark:border-zinc-800"
-            >
-              <Phone className="w-4 h-4 text-orange-500" />
-              <span>Call Front Desk: +91 97132 17866</span>
-            </a>
           </div>
         </div>
       )}

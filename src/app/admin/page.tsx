@@ -54,7 +54,7 @@ import {
 import { useAuth } from '@/context/AuthContext';
 
 export default function AdminHubPage() {
-  const { user, login, switchPersona, logout } = useAuth();
+  const { user, switchPersona, logout } = useAuth();
   
   const [activeTab, setActiveTab] = useState<'MEMBERS' | 'LEADS' | 'EXPENSES' | 'STAFF' | 'DIET_WORKOUT' | 'BROADCAST' | 'ATTENDANCE'>('MEMBERS');
   const [members, setMembers] = useState(() => getMembers());

@@ -212,7 +212,7 @@ export interface KidsBadge {
 }
 
 export type LeadStatus = 'HOT' | 'WARM' | 'COLD' | 'CONVERTED' | 'LOST';
-export type LeadSource = 'GOOGLE' | 'INSTAGRAM' | 'WALK_IN' | 'REFERRAL' | 'WEBSITE';
+export type LeadSource = 'GOOGLE' | 'INSTAGRAM' | 'WALK_IN' | 'REFERRAL' | 'WEBSITE' | 'FREE_TRIAL';
 
 export interface EnquiryLead {
   id: string;
@@ -221,10 +221,10 @@ export interface EnquiryLead {
   email?: string;
   source: LeadSource;
   status: LeadStatus;
-  interestDiscipline: DisciplineType;
-  preferredBatch: BatchType;
+  interestDiscipline?: DisciplineType;
+  preferredBatch?: BatchType;
   notes: string;
-  followUpDate: string;
+  followUpDate?: string;
   assignedCoach: string;
   createdAt: string;
 }
