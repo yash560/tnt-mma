@@ -10,6 +10,7 @@ import InteractiveTimetable from '@/components/landing/InteractiveTimetable';
 import PricingCalculator from '@/components/landing/PricingCalculator';
 import GoogleReviewsMarquee from '@/components/landing/GoogleReviewsMarquee';
 import FacilityGallery from '@/components/landing/FacilityGallery';
+import RealPhotoGallery from '@/components/landing/RealPhotoGallery';
 import LocationContact from '@/components/landing/LocationContact';
 import FreeTrialModal from '@/components/landing/FreeTrialModal';
 import { 
@@ -122,7 +123,10 @@ export default function HomePage() {
         {/* 4.9★ Google Reviews Marquee & Coach Credentials */}
         <GoogleReviewsMarquee />
 
-        {/* Arena & Facility Gallery */}
+        {/* Real Google Photos & Video Training Gallery */}
+        <RealPhotoGallery isFullPage={false} />
+
+        {/* Arena & Facility Highlights */}
         <FacilityGallery />
 
         {/* Bhopal Branch Locations & Direct Frontdesk Contact */}

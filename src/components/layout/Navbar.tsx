@@ -24,7 +24,8 @@ import {
   Sun,
   Moon,
   LogOut,
-  ArrowRight
+  ArrowRight,
+  Camera
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -65,6 +66,7 @@ export default function Navbar() {
 
   const academyLinks = [
     { title: 'Weekly Mat Timetable', desc: 'Morning, afternoon kids & evening fight slots', href: '/schedule', icon: CalendarDays },
+    { title: 'Real Photo & Video Gallery', desc: 'Authentic photos from Bhopal mats & lake runs', href: '/gallery', icon: Camera },
     { title: 'Arena & Facilities Tour', desc: 'Octagon cage, grappling mats & heavy bags', href: '/about#facilities', icon: Flame },
     { title: 'Coaching Staff & Founders', desc: 'Head Coach Vikalp & certified trainers', href: '/about#coaches', icon: UserCircle2 },
     { title: '4.9★ Google Reviews', desc: '100+ verified Bhopal athlete reviews', href: '/about#reviews', icon: Star },

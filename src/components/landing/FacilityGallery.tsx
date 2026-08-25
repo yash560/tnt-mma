@@ -1,33 +1,34 @@
 'use client';
 
 import React from 'react';
-import { Flame, ShieldCheck, Sparkles, Trophy } from 'lucide-react';
+import { Flame, ShieldCheck, Sparkles, Trophy, Camera } from 'lucide-react';
+import Link from 'next/link';
 
 export default function FacilityGallery() {
   const facilityHighlights = [
     {
-      title: 'Pro Competition Octagon Cage',
-      description: 'Full-gauge steel combat cage with padded floor for realistic MMA fence-work, takedown transitions, and pro sparring.',
-      image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?w=600&auto=format&fit=crop&q=80',
-      badge: 'Championship Spec',
+      title: 'CrossFit Rig & Pull-Up Stations',
+      description: 'Heavy-duty multi-station pull-up rig, gymnastic rings, and functional strength turf for conditioning at the Bhopal academy.',
+      image: '/images/real/tnt_calisthenics_rig.jpg',
+      badge: 'Bhopal Facility',
     },
     {
-      title: 'Seamless High-Density Grappling Mats',
-      description: 'Anti-microbial, high-shock absorption tatami mats designed for safe BJJ throws, sweeps, and submissions.',
-      image: 'https://images.unsplash.com/photo-1549476464-37392f717541?w=600&auto=format&fit=crop&q=80',
-      badge: 'IBJJF Standards',
+      title: 'MMA Sparring & Bruce Lee Floor',
+      description: 'Padded floor combat arena for takedown entries, striking padwork, and technical sparring led by Head Coach Vikalp.',
+      image: '/images/real/tnt_sparring_brucelee.jpg',
+      badge: 'Coach Vikalp Mat',
     },
     {
-      title: 'Heavy Bag Row & Muay Thai Pads',
-      description: 'Multi-weight Fairtex and heavy tear-drop punching bags for power development, low kicks, and combination drills.',
-      image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&auto=format&fit=crop&q=80',
-      badge: 'Striking Power',
+      title: 'Heavy Bag Row & Dutch Striking',
+      description: 'Full row of heavy tear-drop and cylinder punching bags for high-volume Muay Thai kick combinations and punch power.',
+      image: '/images/real/tnt_heavybag_kickboxing.jpg',
+      badge: 'Striking Row',
     },
     {
-      title: 'CrossFit Rig & Olympic Barbell Arena',
-      description: 'Commercial pull-up rigs, gymnastic rings, bumper plates, battle ropes, and giant tractor tyres for gladiator conditioning.',
-      image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&auto=format&fit=crop&q=80',
-      badge: 'Functional Rig',
+      title: 'Fighter Core & Balance Conditioning',
+      description: 'Medicine ball balance drills, takedown center of gravity training, and explosive isometric core development.',
+      image: '/images/real/tnt_balance_conditioning.jpg',
+      badge: 'Fighter Balance',
     },
   ];
 
@@ -36,17 +37,26 @@ export default function FacilityGallery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider">
-            <Trophy className="w-3.5 h-3.5" />
-            Arena & Equipment
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 border-b border-slate-100 dark:border-zinc-800">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-wider">
+              <Camera className="w-3.5 h-3.5" />
+              Real Gym Photos (Bhopal)
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
+              Real Arena & Training Floor
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base max-w-2xl">
+              Authentic photos from our Ayodhya Nagar & Govind Garden facilities in Bhopal.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
-            Built for Serious Combat Fitness
-          </h2>
-          <p className="text-slate-600 dark:text-zinc-400 text-sm sm:text-base">
-            Every inch of our Bhopal academies is engineered with athlete safety, hygiene, and championship equipment in mind.
-          </p>
+
+          <Link
+            href="/gallery"
+            className="px-5 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md shrink-0 self-start md:self-auto"
+          >
+            Explore Full Gallery →
+          </Link>
         </div>
 
         {/* Facility Grid */}
@@ -57,22 +67,21 @@ export default function FacilityGallery() {
               className="rounded-3xl bg-slate-50 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 overflow-hidden flex flex-col justify-between hover:border-orange-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl shadow-sm group"
             >
               {/* Image Banner */}
-              <div className="relative h-48 w-full overflow-hidden bg-slate-200 dark:bg-zinc-950">
+              <div className="relative h-56 w-full overflow-hidden bg-slate-900">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <span className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-black/80 text-orange-400 border border-orange-500/30 backdrop-blur-md">
+                <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-wider text-orange-400">
                   {item.badge}
-                </span>
+                </div>
               </div>
 
-              {/* Copy */}
+              {/* Content */}
               <div className="p-5 space-y-2">
-                <h3 className="text-base font-bold text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                <h3 className="text-base font-black text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
                   {item.title}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
