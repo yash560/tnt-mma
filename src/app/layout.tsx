@@ -5,6 +5,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { LanguageProvider } from '@/context/LanguageContext';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tntmma.thewebvale.com'),
   title: 'TNT MMA & Fitness Academy | Bhopal’s #1 Combat & CrossFit Gym (4.9★)',
   description: 'Bhopal’s premier Mixed Martial Arts, Brazilian Jiu-Jitsu, Kickboxing, CrossFit, Calisthenics & Kids Self-Defense Academy. Led by certified Head Coach Vikalp across Nizamuddin Rd (Ayodhya Nagar) & Govind Garden.',
   keywords: [
@@ -24,6 +25,11 @@ export const metadata: Metadata = {
     siteName: 'TNT MMA Fitness Academy',
     locale: 'en_IN',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TNT MMA & Fitness Academy | Bhopal (4.9★)',
+    description: 'Transform your body with Mixed Martial Arts, BJJ, Kickboxing, CrossFit, and Kids Self-Defense.',
   },
   icons: {
     icon: '/favicon.ico',
